@@ -1,0 +1,6 @@
+{
+  "name": "证券公司总裁每日经营实况",
+  "description": "专为董事长、总裁和经营班子打造的每日5分钟核心经营与投资实况数字化决策终端，支持AI经营与投资摘要、多维财务穿透、持仓异动变动及合规风控红黄绿预警。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
