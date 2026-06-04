@@ -75,8 +75,8 @@ export const MarketOverview: React.FC<MarketOverviewProps> = ({ marketOverview }
         <span className="text-[14px] text-[#6B7280]">市场趋势:</span>
         <span className={`px-3 py-1 rounded-full text-[14px] font-semibold ${
           marketOverview.marketTrend === '上涨' ? 'bg-[#ED6C3D]/10 text-[#ED6C3D]' :
-          marketOverview.marketTrend === '下跌' ? 'bg-[#ECB66D]/10 text-[#ECB66D]' :
-          'bg-[#ECB66D]/10 text-[#ECB66D]'
+          marketOverview.marketTrend === '下跌' ? 'bg-[#ED6C3D]/10 text-[#ED6C3D]' :
+          'bg-[#ED6C3D]/10 text-[#ED6C3D]'
         }`}>
           {marketOverview.marketTrend}
         </span>

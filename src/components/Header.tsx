@@ -41,20 +41,12 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Logo and App Title */}
         <div className="flex items-center gap-3">
           <div className="flex items-center justify-center bg-[#6287EE] px-2.5 py-1.5 text-white font-black text-[16px] font-mono tracking-wider rounded-lg shadow-sm">
-            TFC DIRECT
+            TF
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-xl font-bold tracking-tight text-slate-900 font-sans">
-                每日经营实况
-              </h1>
-              <span className="text-[14px] bg-[#EBEEF3] border border-[#E5E7EB] text-[#6B7280] px-1.5 py-0.5 rounded-full font-semibold">
-                V1.8 PRO
-              </span>
-            </div>
-            <p className="text-[16px] text-[#6B7280] mt-0.5">
-              董事长 · 总裁 · 经营班子专属 5分钟看盘与数字化经营大脑
-            </p>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 font-sans">
+              天风证券每日经营实况
+            </h1>
           </div>
         </div>
 
@@ -75,7 +67,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center bg-[#EBEEF3] p-0.5 rounded-xl">
             <button
               onClick={() => setSelectedScenario('morning')}
-              className={`px-4 py-1.5 rounded-lg transition-all font-semibold flex items-center gap-1.5 ${
+              className={`px-4 py-1.5 rounded-lg transition-all font-semibold flex items-center gap-1.5 text-[14px] ${
                 selectedScenario === 'morning'
                   ? 'bg-amber-500 text-white shadow-sm shadow-amber-500/10'
                   : 'text-[#6B7280] hover:text-[#1F2937]'
@@ -86,7 +78,7 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
             <button
               onClick={() => setSelectedScenario('evening')}
-              className={`px-4 py-1.5 rounded-lg transition-all font-semibold flex items-center gap-1.5 ${
+              className={`px-4 py-1.5 rounded-lg transition-all font-semibold flex items-center gap-1.5 text-[14px] ${
                 selectedScenario === 'evening'
                   ? 'bg-[#6287EE] text-white shadow-sm shadow-[#6287EE]/10'
                   : 'text-[#6B7280] hover:text-[#1F2937]'

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ShieldAlert, TrendingUp, DollarSign, PieChart, Activity, RefreshCw, Layers, CheckCircle2, ChevronRight, Bookmark, Landmark, AlertTriangle } from 'lucide-react';
 import { InvestmentProfit, HoldingSize, TopHolding, HoldingChange, CapitalUtilization, RiskPrompt, RiskLevel } from '../types';
 
@@ -28,6 +28,57 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
 }) => {
   const [selectedAccount, setSelectedAccount] = useState<string>('acc-2070');
   const [isRiskConfirmed, setIsRiskConfirmed] = useState<Record<string, boolean>>({});
+  const [animatedKpi, setAnimatedKpi] = useState({
+    totalValue: 0,
+    netBuy: 0,
+    dailyPnL: 0,
+    yearPnL: 0,
+  });
+
+  // Count-up animation for KPI values - triggers when switching to 盘后分析
+  useEffect(() => {
+    // Reset to 0 when switching to evening scenario to replay animation
+    if (selectedScenario === 'evening') {
+      setAnimatedKpi({
+        totalValue: 0,
+        netBuy: 0,
+        dailyPnL: 0,
+        yearPnL: 0,
+      });
+    }
+
+    const duration = 1000;
+    const steps = 50;
+    const interval = duration / steps;
+    let step = 0;
+
+    const targetValues = {
+      totalValue: 25.80,
+      netBuy: -26.17,
+      dailyPnL: -1.631,
+      yearPnL: 9.644,
+    };
+
+    const timer = setInterval(() => {
+      step++;
+      const progress = step / steps;
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+
+      setAnimatedKpi({
+        totalValue: targetValues.totalValue * easeOut,
+        netBuy: targetValues.netBuy * easeOut,
+        dailyPnL: targetValues.dailyPnL * easeOut,
+        yearPnL: targetValues.yearPnL * easeOut,
+      });
+
+      if (step >= steps) {
+        clearInterval(timer);
+        setAnimatedKpi(targetValues);
+      }
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, [selectedScenario]);
 
   const handleForcedExit = (id: string, target: string) => {
     alert(`[风控部强平响应指令] 针对超期质押标的项: "${target}" 的强制退出程序已就绪。\n正在通过中国证券登记结算上海/深圳分公司进行实时并账清算与强制交割。`);
@@ -52,8 +103,8 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
       );
     }
     return (
-      <span className="inline-flex items-center gap-1.5 bg-[#ECB66D] text-[#ECB66D] border border-bg-[#F7C4AB] px-2.5 py-0.5 rounded-full text-[14px] font-medium">
-        <span className="h-1.5 w-1.5 rounded-full bg-[#ECB66D]"></span>
+      <span className="inline-flex items-center gap-1.5 bg-[#27C781] text-[#27C781] border border-bg-[#F7C4AB] px-2.5 py-0.5 rounded-full text-[14px] font-medium">
+        <span className="h-1.5 w-1.5 rounded-full bg-[#27C781]"></span>
         合规稳健
       </span>
     );
@@ -61,7 +112,7 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
 
   const renderValueColor = (val: number, hasBold = true) => {
     if (val > 0) return `text-[#ED6C3D] font-mono ${hasBold ? 'font-bold' : ''}`;
-    if (val < 0) return `text-[#ECB66D] font-mono ${hasBold ? 'font-bold' : ''}`;
+    if (val < 0) return `text-[#27C781] font-mono ${hasBold ? 'font-bold' : ''}`;
     return 'text-[#6B7280] font-mono';
   };
 
@@ -156,7 +207,7 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
         <div className="flex items-center justify-between border-b border-slate-50 pb-3 mb-4">
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-4 bg-[#6287EE] rounded-full animate-pulse"></span>
-            <h2 className="text-sm font-bold text-[#1F2937] tracking-tight flex items-center gap-1.5">
+            <h2 className="text-base font-bold text-[#1F2937] tracking-tight flex items-center gap-1.5">
               [盘后分析] 集团自营自筹与持仓大类实况 (六账户总清算)
             </h2>
           </div>
@@ -165,27 +216,27 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
 
         {/* Aggregate Consolidated Ledger bar (Six Accounts Comprehensive sum) */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-[#F7F9FC] p-3 rounded-2xl border border-[#E5E7EB]">
+          <div className="bg-[#F7F9FC] p-4 rounded-2xl border border-[#E5E7EB]">
             <span className="text-[14px] text-[#6B7280] font-semibold block">多账户持仓总市值</span>
-            <span className="text-base font-bold text-slate-900 font-mono mt-1 block">25.80 亿元</span>
+            <span className="text-[20px] font-bold text-slate-900 font-mono mt-2 block">{animatedKpi.totalValue.toFixed(2)} 亿元</span>
             <span className="text-[12px] text-[#6B7280] block mt-1 font-sans">对应并账底层资产258,000万</span>
           </div>
 
-          <div className="bg-[#F7F9FC] p-3 rounded-2xl border border-[#E5E7EB]">
+          <div className="bg-[#F7F9FC] p-4 rounded-2xl border border-[#E5E7EB]">
             <span className="text-[14px] text-[#6B7280] font-semibold block">{selectedScenario === 'evening' ? 'T日' : 'T-1'}日多账户净买入</span>
-            <span className="text-base font-bold text-[#ECB66D] font-mono mt-1 block">-26,170 万元</span>
-            <span className="text-[12px] hover:text-[#ECB66D] block mt-1">日内多头平盘/空单对冲</span>
+            <span className="text-[20px] font-bold text-[#27C781] font-mono mt-2 block">{animatedKpi.netBuy.toFixed(0)} 万元</span>
+            <span className="text-[12px] hover:text-[#27C781] block mt-1">日内多头平盘/空单对冲</span>
           </div>
 
-          <div className="bg-[#F7F9FC] p-3 rounded-2xl border border-[#E5E7EB]">
+          <div className="bg-[#F7F9FC] p-4 rounded-2xl border border-[#E5E7EB]">
             <span className="text-[14px] text-[#6B7280] font-semibold block">单日多账户总损益</span>
-            <span className="text-base font-bold text-[#ECB66D] font-mono mt-1 block">-1,631 万元</span>
+            <span className="text-[20px] font-bold text-[#27C781] font-mono mt-2 block">{animatedKpi.dailyPnL.toFixed(0)} 万元</span>
             <span className="text-[12px] text-[#6B7280] block mt-1">通信/储能回撤导致</span>
           </div>
 
-          <div className="bg-[#F7F9FC] p-3 rounded-2xl border border-[#E5E7EB]">
+          <div className="bg-[#F7F9FC] p-4 rounded-2xl border border-[#E5E7EB]">
             <span className="text-[14px] text-[#6B7280] font-semibold block">本年多账户累计盈余</span>
-            <span className="text-base font-bold text-[#ED6C3D] font-mono mt-1 block">+9,644 万元</span>
+            <span className="text-[20px] font-bold text-[#ED6C3D] font-mono mt-2 block">+{animatedKpi.yearPnL.toFixed(0)} 万元</span>
             <span className="text-[12px] text-[#ED6C3D] block mt-1">YTD净获利水平健壮</span>
           </div>
         </div>
@@ -212,8 +263,8 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-[10.5px] font-bold text-[#1F2937]">{acc.name}</span>
-                    <span className="text-[12px] font-medium bg-[#EBEEF3] text-[#6B7280] px-1.5 py-0.2 rounded-full">{acc.type}</span>
+                    <span className="text-[14px] font-bold text-[#1F2937]">{acc.name}</span>
+                    <span className="text-[14px] font-medium bg-[#EBEEF3] text-[#6B7280] px-1.5 py-0.2 rounded-full">{acc.type}</span>
                   </div>
 
                   <div className="mt-3 grid grid-cols-2 gap-1 text-[14px] font-mono text-[#6B7280]">
@@ -223,7 +274,7 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
                     </div>
                     <div>
                       <span>{selectedScenario === 'evening' ? 'T日' : 'T-1'}日盈亏：</span> 
-                      <span className={acc.todayPnL > 0 ? "text-[#ED6C3D] font-semibold" : acc.todayPnL < 0 ? "text-[#ECB66D] font-semibold" : "text-[#6B7280]"}>
+                      <span className={acc.todayPnL > 0 ? "text-[#ED6C3D] font-semibold" : acc.todayPnL < 0 ? "text-[#27C781] font-semibold" : "text-[#6B7280]"}>
                         {acc.todayPnL === 0 ? "0.00" : `${acc.todayPnL}万`}
                       </span>
                     </div>
@@ -237,7 +288,7 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
           <div className="bg-[#FFFFFF] border border-[#E5E7EB] rounded-3xl p-6 shadow-[0_10px_30px_rgba(0,0,0,0.015)]">
             <div className="flex flex-col md:flex-row justify-between border-b border-slate-50 pb-3 mb-4 gap-2">
               <div>
-                <h3 className="text-sm font-bold text-[#1F2937] flex items-center gap-1.5">
+                <h3 className="text-base font-bold text-[#1F2937] flex items-center gap-1.5">
                   <Bookmark className="h-4 w-4 text-[#6287EE]" />
                   {currentAcc.name} 底层穿透持仓清单
                 </h3>
@@ -245,15 +296,17 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
               </div>
 
               {/* Account summary pill */}
-              <div className="bg-[#F7F9FC] border border-[#E5E7EB] rounded-2xl p-2 px-3 text-[10.5px] font-mono flex items-center gap-4 text-[#6B7280] self-start">
-                <div>
-                  累计：<span className={currentAcc.yearPnL >= 0 ? "text-[#ED6C3D] font-bold" : "text-[#ECB66D] font-bold"}>
+              <div className="bg-[#F7F9FC] border border-[#E5E7EB] rounded-2xl p-3 px-4 text-[14px] font-mono flex items-center gap-5 text-[#6B7280] self-start">
+                <div className="flex items-center gap-2">
+                  <span className="text-[12px] text-[#6B7280]">累计收益</span>
+                  <span className={`text-[16px] font-bold ${currentAcc.yearPnL >= 0 ? "text-[#ED6C3D]" : "text-[#27C781]"}`}>
                     {currentAcc.yearPnL > 0 ? "+" : ""}{currentAcc.yearPnL} 万
                   </span>
                 </div>
-                <div className="w-[1px] h-3 bg-slate-200"></div>
-                <div>
-                  {selectedScenario === 'evening' ? 'T日' : 'T-1'}日：<span className={currentAcc.todayPnL >= 0 ? "text-[#ED6C3D] font-bold" : "text-[#ECB66D] font-bold"}>
+                <div className="w-[1px] h-4 bg-slate-200"></div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[12px] text-[#6B7280]">{selectedScenario === 'evening' ? 'T日' : 'T-1'}日收益</span>
+                  <span className={`text-[16px] font-bold ${currentAcc.todayPnL >= 0 ? "text-[#ED6C3D]" : "text-[#27C781]"}`}>
                     {currentAcc.todayPnL === 0 ? "平盘" : `${currentAcc.todayPnL}万`}
                   </span>
                 </div>
@@ -278,16 +331,16 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
                   </thead>
                   <tbody className="divide-y divide-slate-100 font-sans">
                     {currentAcc.etfs.map((e, index) => (
-                      <tr key={index} className="hover:bg-[#F7F9FC]/50 transition-colors">
-                        <td className="py-3 px-3 font-mono text-[#6B7280]">{e.code}</td>
+                      <tr key={index} className="hover:bg-[#F7F9FC]/50 transition-colors text-[14px]">
+                        <td className="py-3 px-3 font-mono text-[#6B7288]">{e.code}</td>
                         <td className="py-3 px-3 font-semibold text-[#1F2937]">{e.name}</td>
-                        <td className="py-3 px-3 text-right font-mono text-[#6B7280]">{e.qty}</td>
-                        <td className="py-3 px-3 text-right font-mono text-[#6B7280]">{e.price.toFixed(2)}</td>
+                        <td className="py-3 px-3 text-right font-mono text-[#6B7288]">{e.qty}</td>
+                        <td className="py-3 px-3 text-right font-mono text-[#6B7288]">{e.price.toFixed(2)}</td>
                         <td className="py-3 px-3 text-right font-mono text-[#1F2937] font-medium">
                           {e.value.toLocaleString('zh-CN')}
                         </td>
                         <td className="py-3 px-3 text-right font-mono">
-                          <span className={e.netBuy > 0 ? "text-[#ED6C3D] font-semibold" : e.netBuy < 0 ? "text-[#6287EE] font-semibold" : "text-[#6B7280]"}>
+                          <span className={e.netBuy > 0 ? "text-[#ED6C3D] font-semibold" : e.netBuy < 0 ? "text-[#6287EE] font-semibold" : "text-[#6B7288]"}>
                             {e.netBuy === 0 ? "0" : e.netBuy > 0 ? `+${e.netBuy.toLocaleString('zh-CN')}` : e.netBuy.toLocaleString('zh-CN')}
                           </span>
                         </td>
@@ -300,13 +353,13 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
                       </tr>
                     ))}
                     {/* Sum Totals */}
-                    <tr className="bg-[#F7F9FC]/60 font-semibold border-t-2 border-[#E5E7EB]">
+                    <tr className="bg-[#F7F9FC]/60 font-semibold border-t-2 border-[#E5E7EB] text-[14px]">
                       <td colSpan={2} className="py-3 px-3 text-[#1F2937]">合计</td>
                       <td className="py-3 px-3 text-right">--</td>
                       <td className="py-3 px-3 text-right">--</td>
                       <td className="py-3 px-3 text-right font-mono text-slate-900">112,069</td>
                       <td className="py-3 px-3 text-right font-mono text-[#6287EE]">-2,002</td>
-                      <td className="py-3 px-3 text-right font-mono text-[#ECB66D]">-1,185</td>
+                      <td className="py-3 px-3 text-right font-mono text-[#27C781]">-1,185</td>
                       <td className="py-3 px-3 text-right font-mono text-[#ED6C3D]">+11,487</td>
                     </tr>
                   </tbody>
@@ -330,36 +383,36 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
             <div className="flex items-center justify-between border-b border-slate-50 pb-3 mb-4">
               <div className="flex items-center gap-1.5">
                 <span className="w-1.5 h-3.5 bg-[#6287EE] rounded-full"></span>
-                <span className="text-xs font-bold text-[#1F2937] tracking-wide">[持仓异动] T日日间大宗及大账户变动</span>
+                <span className="text-base font-bold text-[#1F2937] tracking-wide">[持仓异动]{selectedScenario === 'evening' ? 'T日变动' : 'T-1日账户变动'}</span>
               </div>
               <span className="text-[12px] text-[#6B7280] font-mono">交易池</span>
             </div>
 
             <div className="space-y-2.5">
               {changes.slice(0, 3).map((c) => (
-                <div 
-                  key={c.id} 
-                  className="bg-[#F7F9FC]/60 hover:bg-[#EBEEF3]/50 border border-[#E5E7EB] p-3 rounded-2xl flex items-center justify-between text-xs transition-all"
+                <div
+                  key={c.id}
+                  className="bg-[#F7F9FC]/60 hover:bg-[#EBEEF3]/50 border border-[#E5E7EB] p-3 rounded-2xl flex items-center justify-between text-[14px] transition-all"
                 >
                   <div className="flex items-center gap-2">
-                    <span className={`text-[12px] px-1.5 py-0.5 rounded-full font-bold ${
+                    <span className={`text-[14px] px-1.5 py-0.5 rounded-full font-bold ${
                       c.changeType === '新增'
                         ? 'bg-[#6287EE]/30 text-[#6287EE] border border-[#6287EE]/30'
                         : c.changeType === '增持'
                           ? 'bg-[#F7C4AB]/30 text-[#ED6C3D] border border-[#ED6C3D]/30'
-                          : 'bg-[#F7C4AB]/30 text-[#ECB66D] border border-[#F7C4AB]/30'
+                          : 'bg-[#27C781]/30 text-[#27C781] border border-[#27C781]/30'
                     }`}>
                       {c.changeType}
                     </span>
                     <div>
                       <div className="flex items-center gap-1">
-                        <span className="font-semibold text-[#1F2937] text-xs">{c.name}</span>
-                        <span className="text-[12px] text-[#6B7280] font-mono">({c.code})</span>
+                        <span className="font-semibold text-[#1F2937] text-[14px]">{c.name}</span>
+                        <span className="text-[14px] text-[#6B7280] font-mono">({c.code})</span>
                       </div>
                       <span className="text-[14px] text-[#6B7280] mt-0.5 block line-clamp-1">{c.notes}</span>
                     </div>
                   </div>
-                  <div className="text-right font-mono shrink-0 font-bold text-[#1F2937]">
+                  <div className="text-right font-mono shrink-0 font-bold text-[#1F2937] text-[14px]">
                     {c.amount > 0 ? '+' : ''}{c.amount} 万
                   </div>
                 </div>
@@ -371,8 +424,8 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
           <div className="bg-[#FFFFFF] border border-[#E5E7EB] rounded-3xl p-6 shadow-[0_10px_30px_rgba(0,0,0,0.015)]">
             <div className="flex items-center justify-between border-b border-slate-50 pb-3 mb-4">
               <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-3.5 bg-[#F7C4AB]0 rounded-full animate-pulse"></span>
-                <span className="text-xs font-bold text-[#1F2937] tracking-wide">[合规哨兵] 限额与四大核心风险雷达</span>
+                <span className="w-1.5 h-3.5 bg-[#F7C4AB] rounded-full animate-pulse"></span>
+                <span className="text-base font-bold text-[#1F2937] tracking-wide">[合规哨兵] 限额与四大核心风险雷达</span>
               </div>
               <span className="text-[12px] text-[#6B7280] font-mono">自检响应</span>
             </div>
@@ -397,7 +450,7 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
                     <div>
                       <div className="flex items-center justify-between mb-1">
                         <span className="text-xs font-bold text-[#1F2937]">{risk.type}</span>
-                        {getRiskBadge(risk.status)}
+                        {risk.type !== '流动性风险' && risk.type !== '市场风险' && getRiskBadge(risk.status)}
                       </div>
                       <p className="text-[14px] leading-relaxed text-[#6B7280] font-sans mt-0.5">
                         {risk.description}
@@ -416,20 +469,17 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
                           className={`font-sans px-2.5 py-1 rounded-xl text-[10.5px] font-bold cursor-pointer transition-all shadow-sm ${
                             isConfirmed 
                               ? 'bg-[#EBEEF3] text-[#6B7280] border border-[#E5E7EB] cursor-not-allowed'
-                              : 'bg-[#F7C4AB]0 hover:bg-red-600 text-white'
+                              : 'bg-[#F7C4AB] hover:bg-red-600 text-white'
                           }`}
                         >
                           {isConfirmed ? '强平清结算中' : '⚠️ 强平清算'}
                         </button>
                       ) : isConcern ? (
-                        <button 
-                          onClick={() => alert(`[融资融券部已完成客户连线]：督促客户于下周第一个交易日开盘前追加足额现金担保。若爆破仍将强平！`)}
-                          className="bg-[#FFFFFF] text-amber-600 border border-amber-150 hover:bg-amber-50 font-sans px-2.5 py-1 rounded-xl font-bold transition-all cursor-pointer shadow-sm text-[14px]"
-                        >
-                          🔔 催收担保
-                        </button>
+                        <span className="text-[#27C781] font-bold flex items-center gap-0.5">
+                          <CheckCircle2 className="h-3.5 w-3.5" /> 安全
+                        </span>
                       ) : (
-                        <span className="text-bg-[#ECB66D] font-bold flex items-center gap-0.5">
+                        <span className="text-[#27C781] font-bold flex items-center gap-0.5">
                           <CheckCircle2 className="h-3.5 w-3.5" /> 安全
                         </span>
                       )}
@@ -439,11 +489,8 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
               })}
             </div>
           </div>
-
         </div>
-
       </div>
-
     </div>
   );
 };

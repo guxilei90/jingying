@@ -26,6 +26,57 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
 }) => {
   const [isRegenerating, setIsRegenerating] = useState(false);
   const [progress, setProgress] = useState(100);
+  const [animatedValues, setAnimatedValues] = useState({
+    todayRevenue: 0,
+    revenueMonth: 0,
+    revenueYear: 0,
+    profitMonth: 0,
+    profitYear: 0,
+  });
+  const [animatedProgress, setAnimatedProgress] = useState({ budget: 0, profitRatio: 0 });
+
+  // Count-up animation for numbers and progress bars
+  useEffect(() => {
+    const duration = 1200;
+    const steps = 60;
+    const interval = duration / steps;
+    let step = 0;
+
+    const timer = setInterval(() => {
+      step++;
+      const progress = step / steps;
+      const easeOut = 1 - Math.pow(1 - progress, 3); // cubic ease out
+
+      setAnimatedValues({
+        todayRevenue: overview.todayRevenue * easeOut,
+        revenueMonth: overview.revenueMonth * easeOut,
+        revenueYear: overview.revenueYear * easeOut,
+        profitMonth: overview.profitMonth * easeOut,
+        profitYear: overview.profitYear * easeOut,
+      });
+      setAnimatedProgress({
+        budget: overview.profitBudgetRate * easeOut,
+        profitRatio: Math.min(overview.profitMonth / overview.revenueMonth * 100, 100) * easeOut,
+      });
+
+      if (step >= steps) {
+        clearInterval(timer);
+        setAnimatedValues({
+          todayRevenue: overview.todayRevenue,
+          revenueMonth: overview.revenueMonth,
+          revenueYear: overview.revenueYear,
+          profitMonth: overview.profitMonth,
+          profitYear: overview.profitYear,
+        });
+        setAnimatedProgress({
+          budget: overview.profitBudgetRate,
+          profitRatio: Math.min(overview.profitMonth / overview.revenueMonth * 100, 100),
+        });
+      }
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, [overview.todayRevenue, overview.revenueMonth, overview.revenueYear, overview.profitMonth, overview.profitYear, overview.profitBudgetRate]);
 
   useEffect(() => {
     setIsRegenerating(true);
@@ -60,38 +111,77 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
 
   const renderValueColor = (val: number) => {
     if (val > 0) return 'text-[#ED6C3D] font-mono';
-    if (val < 0) return 'text-[#ECB66D] font-mono';
+    if (val < 0) return 'text-[#27C781] font-mono';
     return 'text-[#6B7280] font-mono';
   };
 
-  const formatNum = (num: number, hasSign = false) => {
-    const absVal = Math.abs(num).toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const formatNum = (num: number, hasSign = false, animated = false) => {
+    const displayNum = animated ? num : Math.round(num);
+    const absVal = displayNum.toLocaleString('zh-CN', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
     if (num > 0) return hasSign ? `+${absVal}` : absVal;
     if (num < 0) return `-${absVal}`;
-    return '0.00';
+    return '0';
   };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 px-1 py-1 select-none">
 
       {/* LEFT CARD (Col-span 7): 营业收入 & 利润总额 大盘实况卡片 */}
-      <div className="lg:col-span-7 bg-[#FFFFFF] border border-[#E5E7EB] rounded-3xl p-6 shadow-[0_10px_30px_rgba(0,0,0,0.015)] flex flex-col justify-between hover:shadow-[0_12px_35px_rgba(0,0,0,0.025)] transition-all">
+      <div className="lg:col-span-7 bg-[#F8F9FB] border border-[#E8EAEF] rounded-3xl p-6 shadow-[0_4px_24px_rgba(0,0,0,0.04)] flex flex-col justify-between hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] transition-all relative overflow-hidden min-h-[340px]">
+        {/* Decorative flowing lines background */}
+        <svg className="absolute top-0 left-0 w-full h-full pointer-events-none" style={{opacity: '0.03'}} viewBox="0 0 400 300" preserveAspectRatio="none">
+          <path d="M0,150 Q100,100 200,150 T400,150" fill="none" stroke="#6287EE" strokeWidth="1"/>
+          <path d="M0,200 Q150,120 300,180 T450,140" fill="none" stroke="#ED6C3D" strokeWidth="1"/>
+          <path d="M-50,100 Q80,60 180,120 T380,80" fill="none" stroke="#6287EE" strokeWidth="0.8"/>
+          <path d="M0,250 Q200,180 350,220 T500,170" fill="none" stroke="#ED6C3D" strokeWidth="0.8"/>
+          <path d="M0,50 Q120,20 240,60 T480,30" fill="none" stroke="#6287EE" strokeWidth="0.6"/>
+        </svg>
         <div>
           <div className="flex items-center gap-2 border-b border-slate-50 pb-3 mb-4">
             <span className="w-1.5 h-4 bg-[#6287EE] rounded-full"></span>
-            <h3 className="text-sm font-bold text-[#1F2937] tracking-tight">集团核心经营与盈利总览</h3>
-            <span className="text-[14px] bg-[#EBEEF3] text-[#6B7280] px-2 py-0.5 rounded-full font-medium ml-auto">T-1日清算结转</span>
+            <h3 className="text-[16px] font-bold text-[#1F2937] tracking-tight">集团核心经营与盈利总览</h3>
           </div>
 
           <div className="grid grid-cols-1 gap-4">
             {/* Operating Revenue Segment */}
-            <div className="bg-[#F2F4F7] hover:bg-[#EBEEF3] p-4 rounded-2xl border border-[#E5E7EB] transition-colors">
-              <div className="grid grid-cols-2 gap-4 items-center">
+            <div className="relative overflow-hidden bg-gradient-to-br from-[#FAFAFC] via-[#F4F6F9] to-[#ECEEF3] hover:from-[#FAFAFC] hover:to-[#E8EBF0] p-4 rounded-2xl border border-[#E4E7ED] transition-all">
+              {/* Elegant flowing lines background */}
+              <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.06]" viewBox="0 0 400 160" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="lineGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#6287EE"/>
+                    <stop offset="100%" stopColor="#6287EE" stopOpacity="0"/>
+                  </linearGradient>
+                  <linearGradient id="lineGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#ED6C3D"/>
+                    <stop offset="100%" stopColor="#ED6C3D" stopOpacity="0"/>
+                  </linearGradient>
+                  <linearGradient id="lineGrad3" x1="100%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#6287EE"/>
+                    <stop offset="50%" stopColor="#ED6C3D" stopOpacity="0.5"/>
+                    <stop offset="100%" stopColor="#ED6C3D"/>
+                  </linearGradient>
+                </defs>
+                <path d="M-20,80 Q80,20 180,70 T380,50" fill="none" stroke="url(#lineGrad1)" strokeWidth="1.5"/>
+                <path d="M-10,120 Q100,60 200,100 T420,80" fill="none" stroke="url(#lineGrad2)" strokeWidth="1"/>
+                <path d="M0,40 Q120,10 220,50 T400,30" fill="none" stroke="url(#lineGrad3)" strokeWidth="0.8" strokeDasharray="4 2"/>
+                <path d="M50,140 Q150,100 250,130 T450,100" fill="none" stroke="url(#lineGrad1)" strokeWidth="0.6" strokeDasharray="2 4"/>
+              </svg>
+              {/* Soft decorative blur elements */}
+              <div className="absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl from-[#6287EE]/20 via-[#6287EE]/5 to-transparent rounded-bl-full blur-[20px]"></div>
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-[#ED6C3D]/18 via-[#ED6C3D]/5 to-transparent rounded-tr-full blur-[15px]"></div>
+              {/* Subtle top line */}
+              <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#D0D5E0]/50 to-transparent"></div>
+
+              <div className="grid grid-cols-2 gap-4 items-center relative z-10">
                 {/* Left: Revenue Data */}
                 <div>
-                  <div className="text-[14px] text-[#6B7280] font-semibold">营业收入 (T-1日收盘)</div>
+                  <div className="text-[14px] text-[#6B7280] font-semibold flex items-center gap-2">
+                    <span className="w-1 h-3 bg-[#ED6C3D] rounded-full"></span>
+                    营业收入 (T-1日收盘)
+                  </div>
                   <div className="text-[28px] font-bold text-[#ED6C3D] font-mono mt-3 flex items-baseline gap-1">
-                    <span>{formatNum(overview.todayRevenue, true)}</span>
+                    <span>{formatNum(animatedValues.todayRevenue, true)}</span>
                     <span className="text-2xs font-sans font-medium text-[#6B7280]">万</span>
                   </div>
                   <div className="flex items-center gap-1.5 mt-2 text-[14px]">
@@ -102,15 +192,15 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
                   </div>
                 </div>
                 {/* Right: Trend Chart */}
-                <div className="border-l border-[#E5E7EB] pl-4 flex-1 min-w-[140px]">
+                <div className="border-l border-[#E8EAEF] pl-4 flex-1 min-w-[140px]">
                   <div className="text-[12px] text-[#6B7280] mb-1">近7日趋势</div>
                   <div className="h-24">
                     <svg className="w-full h-full" viewBox="0 0 560 56" preserveAspectRatio="xMidYMid meet">
                       {/* Gradient fill */}
                       <defs>
                         <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#ED6C3D" stopOpacity="0.15" />
-                          <stop offset="100%" stopColor="#ED6C3D" stopOpacity="0" />
+                          <stop offset="0%" stopColor="#ED6C3D" stopOpacity="0.2" />
+                          <stop offset="100%" stopColor="#ED6C3D" stopOpacity="0.02" />
                         </linearGradient>
                       </defs>
                       {/* Trend line with smooth curve */}
@@ -139,14 +229,10 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
                               d={linePath}
                               fill="none"
                               stroke="#ED6C3D"
-                              strokeWidth="3"
+                              strokeWidth="2.5"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                             />
-                            {/* Data values */}
-                            {points.map((p, i) => (
-                              <text key={i} x={p.x} y={p.y - 6} textAnchor="middle" fill="#6B7280" fontSize="7" fontFamily="monospace">{p.val}</text>
-                            ))}
                           </>
                         );
                       })()}
@@ -172,21 +258,21 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-[14px]">
                   <span className="text-[#6B7280] font-medium">当月累计创收</span>
-                  <span className="font-mono font-semibold text-[#1F2937]">{formatNum(overview.revenueMonth)} 万</span>
+                  <span className="font-mono font-semibold text-[#1F2937]">{formatNum(animatedValues.revenueMonth)} 万</span>
                 </div>
                 <div className="flex items-center justify-between text-[14px]">
                   <span className="text-[#6B7280] font-medium">当年创收(YTD)</span>
-                  <span className="font-mono font-bold text-[#1F2937]">{(overview.revenueYear / 10000).toFixed(2)} 亿</span>
+                  <span className="font-mono font-bold text-[#1F2937]">{(animatedValues.revenueYear / 10000).toFixed(2)} 亿</span>
                 </div>
               </div>
               <div className="space-y-3 border-l border-[#E5E7EB] pl-6">
                 <div className="flex items-center justify-between text-[14px]">
                   <span className="text-[#6B7280] font-medium">当月利润总额</span>
-                  <span className="font-mono font-semibold text-[#1F2937]">{formatNum(overview.profitMonth)} 万</span>
+                  <span className="font-mono font-semibold text-[#1F2937]">{formatNum(animatedValues.profitMonth)} 万</span>
                 </div>
                 <div className="flex items-center justify-between text-[14px]">
                   <span className="text-[#6B7280] font-medium">年累计利润总额</span>
-                  <span className="font-mono font-bold text-[#6287EE]">{(overview.profitYear / 10000).toFixed(2)} 亿</span>
+                  <span className="font-mono font-bold text-[#6287EE]">{(animatedValues.profitYear / 10000).toFixed(2)} 亿</span>
                 </div>
               </div>
             </div>
@@ -199,8 +285,8 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
                 </div>
                 <div className="w-full bg-[#EBEEF3] h-3 rounded-full overflow-hidden">
                   <div
-                    className="bg-[#6287EE] h-full rounded-full transition-all duration-1000"
-                    style={{ width: `${overview.profitBudgetRate}%` }}
+                    className="bg-gradient-to-r from-[#6287EE] to-[#7B9EEE] h-full rounded-full"
+                    style={{ width: `${animatedProgress.budget}%`, transition: 'width 1.2s cubic-bezier(0.4, 0, 0.2, 1)' }}
                   ></div>
                 </div>
               </div>
@@ -208,12 +294,12 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
               <div className="bg-[#F7F9FC] p-4 rounded-xl border border-[#E5E7EB]/65">
                 <div className="flex items-center justify-between text-[14px] mb-2">
                   <span className="text-[#6B7280] font-semibold">年累计利润总额时序</span>
-                  <span className="font-bold font-mono text-[#ECB66D]">{(overview.profitMonth / overview.revenueMonth * 100).toFixed(1)}%</span>
+                  <span className="font-bold font-mono text-[#ED6C3D]">{animatedProgress.profitRatio.toFixed(1)}%</span>
                 </div>
                 <div className="w-full bg-[#EBEEF3] h-3 rounded-full overflow-hidden">
                   <div
-                    className="bg-[#ECB66D] h-full rounded-full transition-all duration-1000"
-                    style={{ width: `${Math.min(overview.profitMonth / overview.revenueMonth * 100, 100)}%` }}
+                    className="bg-gradient-to-r from-[#ED6C3D] to-[#F09060] h-full rounded-full"
+                    style={{ width: `${animatedProgress.profitRatio}%`, transition: 'width 1.2s cubic-bezier(0.4, 0, 0.2, 1)' }}
                   ></div>
                 </div>
               </div>
@@ -228,7 +314,7 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
         <div>
           <div className="flex items-center justify-between border-b border-slate-50 pb-3 mb-4">
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-bold text-[#1F2937] tracking-tight">AI 总裁经营决策摘要</h3>
+              <h3 className="text-[16px] font-bold text-[#1F2937] tracking-tight">AI 总裁经营决策摘要</h3>
               <span className="text-[14px] text-[#6B7280] font-mono">
                 ({selectedScenario === 'morning' ? '晨会直达' : '盘后财计'})
               </span>
@@ -300,13 +386,13 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
               {marketOverview.indices.map((index) => (
                 <div key={index.code} className="bg-[#F7F9FC] rounded-xl p-3">
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-[11px] text-[#6B7280] font-medium">{index.name}</span>
-                    <span className={`text-[11px] font-mono font-bold ${index.changePercent >= 0 ? 'text-[#ED6C3D]' : 'text-[#ECB66D]'}`}>
+                    <span className="text-[12px] text-[#6B7280] font-medium">{index.name}</span>
+                    <span className={`text-[12px] font-mono font-bold ${index.changePercent >= 0 ? 'text-[#ED6C3D]' : 'text-[#ECB66D]'}`}>
                       {index.changePercent >= 0 ? '+' : ''}{index.changePercent}%
                     </span>
                   </div>
-                  <div className="text-[14px] font-mono font-bold text-[#1F2937]">{index.points.toFixed(2)}</div>
-                  <div className="text-[11px] text-[#6B7280] mt-1">成交 {index.volume.toLocaleString()} 亿</div>
+                  <div className="text-[18px] font-mono font-bold text-[#1F2937]">{index.points.toFixed(2)}</div>
+                  <div className="text-[14px] text-[#6B7280] mt-1">成交 {index.volume.toLocaleString()} 亿</div>
                 </div>
               ))}
             </div>
