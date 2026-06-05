@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { ShieldAlert, TrendingUp, DollarSign, PieChart, Activity, RefreshCw, Layers, CheckCircle2, ChevronRight, Bookmark, Landmark, AlertTriangle } from 'lucide-react';
+import { ShieldAlert, TrendingUp, TrendingDown, DollarSign, PieChart, Activity, RefreshCw, Layers, CheckCircle2, ChevronRight, Bookmark, Landmark, AlertTriangle, Sparkles } from 'lucide-react';
 import { InvestmentProfit, HoldingSize, TopHolding, HoldingChange, CapitalUtilization, RiskPrompt, RiskLevel } from '../types';
 
 interface InvestmentSectionProps {
@@ -213,6 +213,7 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
           </div>
           <span className="text-[14px] text-[#6B7280] font-mono">账套并账核对: 16:30 POS</span>
         </div>
+
 
         {/* Aggregate Consolidated Ledger bar (Six Accounts Comprehensive sum) */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -437,15 +438,16 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
                 const isConfirmed = !!isRiskConfirmed[risk.id];
 
                 return (
-                  <div 
-                    key={risk.id} 
-                    className={`border p-3.5 rounded-2xl transition-all flex flex-col justify-between ${
-                      isBreached 
-                        ? 'border-red-105 bg-[#F7C4AB]/30' 
+                  <div
+                    key={risk.id}
+                    className={`border p-3.5 rounded-2xl transition-all flex flex-col justify-between relative overflow-hidden ${
+                      isBreached
+                        ? 'border-red-500 bg-[#F7C4AB]/30'
                         : isConcern
                           ? 'border-amber-100 bg-amber-50/30'
                           : 'border-[#E5E7EB] bg-[#F7F9FC]/40'
                     }`}
+                    style={isBreached ? { animation: 'riskAlert 1.5s ease-in-out infinite' } : {}}
                   >
                     <div>
                       <div className="flex items-center justify-between mb-1">
@@ -458,16 +460,19 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
                     </div>
 
                     <div className="flex items-center justify-between border-t border-[#E5E7EB]/60 pt-2 mt-2.5 text-[14px] font-mono">
-                      <span className="text-[#6B7280] text-[14px]">
-                        指标: <strong className="text-[#1F2937] font-bold">{risk.indicator}</strong>
+                      <span className="text-[#6B7280]">
+                        {risk.indicator}
                       </span>
-                      
+                      <span className="text-[#6B7280]">
+                        ≤16% ≤20%
+                      </span>
+
                       {isBreached ? (
-                        <button 
+                        <button
                           onClick={() => handleForcedExit(risk.id, risk.targetDetails || risk.type)}
                           disabled={isConfirmed}
                           className={`font-sans px-2.5 py-1 rounded-xl text-[10.5px] font-bold cursor-pointer transition-all shadow-sm ${
-                            isConfirmed 
+                            isConfirmed
                               ? 'bg-[#EBEEF3] text-[#6B7280] border border-[#E5E7EB] cursor-not-allowed'
                               : 'bg-[#F7C4AB] hover:bg-red-600 text-white'
                           }`}

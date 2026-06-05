@@ -74,7 +74,7 @@ export const Header: React.FC<HeaderProps> = ({
               }`}
             >
               <Zap className="h-3.5 w-3.5" />
-              晨会决策研判 (08:30)
+              T-1日经营分析
             </button>
             <button
               onClick={() => setSelectedScenario('evening')}
@@ -85,7 +85,7 @@ export const Header: React.FC<HeaderProps> = ({
               }`}
             >
               <Calendar className="h-3.5 w-3.5" />
-              盘后经营分析 (17:00)
+              T日预估投资分析
             </button>
           </div>
         </div>

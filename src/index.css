@@ -21,3 +21,15 @@ body {
   font-size: 1rem;
   background-color: #F7F9FC;
 }
+
+/* 风控红色边框卡片强烈脉冲动画 */
+@keyframes riskAlert {
+  0%, 100% {
+    box-shadow: 0 0 5px 2px rgba(237, 108, 45, 0.3);
+    border-color: #ED6C3D;
+  }
+  50% {
+    box-shadow: 0 0 20px 5px rgba(237, 108, 45, 0.8);
+    border-color: #c53d1f;
+  }
+}

@@ -118,7 +118,7 @@ export const OperationalSection: React.FC<OperationalSectionProps> = ({
                   {/* Core Metrics Grid */}
                   <div className="grid grid-cols-2 gap-2 mt-3.5 bg-[#F2F4F7] p-2.5 rounded-xl border border-[#E5E7EB]/60">
                     <div className="p-2 bg-[#FFFFFF] rounded-lg border border-[#E5E7EB]">
-                      <span className="text-[12px] text-[#6B7280] font-medium block">T-1日营收</span>
+                      <span className="text-[12px] text-[#6B7280] font-medium block">日营收</span>
                       <span className="text-[16px] font-mono font-bold text-[#ED6C3D] mt-0.5 block">
                         +{formatNum(unit.todayRevenue)} <span className="font-sans font-normal text-[12px] text-[#6B7280] ml-0.2">万</span>
                       </span>
@@ -176,6 +176,37 @@ export const OperationalSection: React.FC<OperationalSectionProps> = ({
                     </div>
                   )}
 
+                  {/* 财富管理中心业务情况 */}
+                  {unit.id === 'bu-wealth' && (
+                    <div className="mt-3.5">
+                      <div className="grid grid-cols-4 gap-2">
+                        {/* 当日新开客户数 */}
+                        <div className="bg-[#F7F9FC] rounded-xl p-2.5 border border-[#E5E7EB]">
+                          <div className="text-[12px] text-[#6B7280] mb-1">当日新开客户数</div>
+                          <div className="text-[14px] font-mono font-bold text-[#1F2937]">164<span className="text-[12px] font-normal text-[#6B7280] ml-2">本年 3.8万</span></div>
+                          <div className="text-[12px] text-[#6B7280]">存量客户 <span className="font-mono">173万</span></div>
+                        </div>
+                        {/* 当日新开客户托管资产 */}
+                        <div className="bg-[#F7F9FC] rounded-xl p-2.5 border border-[#E5E7EB]">
+                          <div className="text-[12px] text-[#6B7280] mb-1">当日新开客户托管资产</div>
+                          <div className="text-[14px] font-mono font-bold text-[#1F2937]">135万<span className="text-[12px] font-normal text-[#6B7280] ml-2">本年 57.34亿</span></div>
+                          <div className="text-[12px] text-[#6B7280]">托管资产 <span className="font-mono">2,457.18亿</span></div>
+                        </div>
+                        {/* 当日产品销量（非货） */}
+                        <div className="bg-[#F7F9FC] rounded-xl p-2.5 border border-[#E5E7EB]">
+                          <div className="text-[12px] text-[#6B7280] mb-1">当日产品销量（非货）</div>
+                          <div className="text-[14px] font-mono font-bold text-[#1F2937]">1.65亿<span className="text-[12px] font-normal text-[#6B7280] ml-2">本年 185.89亿</span></div>
+                          <div className="text-[12px] text-[#6B7280]">产品保有量 <span className="font-mono">50.55亿</span></div>
+                        </div>
+                        {/* 当日交易市占率 */}
+                        <div className="bg-[#F7F9FC] rounded-xl p-2.5 border border-[#E5E7EB]">
+                          <div className="text-[12px] text-[#6B7280] mb-1">当日交易市占率</div>
+                          <div className="text-[14px] font-mono font-bold text-[#1F2937]">1.9‰<span className="text-[12px] font-normal text-[#6B7280] ml-2">年均 1.91‰</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Nested fine items (collapsible cards for Wealth Management and Proprietary units only) */}
                   {hasChildren && (unit.id === 'bu-wealth' || unit.id === 'bu-proprietary') && (
                     <div className="mt-3.5 pt-3 border-t border-[#E5E7EB]">
@@ -193,7 +224,7 @@ export const OperationalSection: React.FC<OperationalSectionProps> = ({
                                 </div>
                                 <div className="mt-2 space-y-1 font-mono text-[12px] text-[#6B7280]">
                                   <div className="flex justify-between">
-                                    <span>T-1日营收:</span>
+                                    <span>日营收:</span>
                                     <span className="text-[#ED6C3D] font-semibold">
                                       +{formatNum(sub.todayRevenue)}万
                                     </span>

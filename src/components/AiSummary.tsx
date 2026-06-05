@@ -358,26 +358,32 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
                   <ArrowUpRight className="h-4 w-4" />
                   <span>核心创富主体</span>
                 </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {aiOperation.contributors.map((unit, index) => (
-                    <span key={index} className="bg-[#F7C4AB]/30 text-[#ED6C3D] border border-[#F7C4AB]/30 px-2 py-0.5 rounded-lg text-[12px] font-medium">
-                      {unit}
-                    </span>
-                  ))}
+                <div className="space-y-2">
+                  <div className="flex items-start gap-2">
+                    <span className="bg-[#F7C4AB]/30 text-[#ED6C3D] border border-[#ED6C3D]/30 px-1.5 py-0.5 rounded text-[12px] font-medium shrink-0">上海自营</span>
+                    <div className="text-[#6B7280]">通信ETF国泰<span className="text-[#ED6C3D] font-bold">(+412W)</span>、通信ETF华夏<span className="text-[#ED6C3D] font-bold">(+334W)</span>、创业板ETF易方达<span className="text-[#ED6C3D] font-bold">(+145W)</span>、电网设备ETF华夏<span className="text-[#ED6C3D] font-bold">(+138W)</span></div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="bg-[#F7C4AB]/30 text-[#ED6C3D] border border-[#ED6C3D]/30 px-1.5 py-0.5 rounded text-[12px] font-medium shrink-0">天风创新</span>
+                    <div className="text-[#6B7280]">兴福电子<span className="text-[#ED6C3D] font-bold">(+1,435W)</span></div>
+                  </div>
                 </div>
               </div>
 
-              <div className="bg-[#A8E6CF]/10 border border-[#A8E6CF]/20 rounded-xl p-3">
+              <div className="bg-[#A8E6CF]/30 border border-[#27C781]/30 rounded-xl p-3">
                 <div className="flex items-center gap-1.5 text-[#27C781] font-semibold text-[14px] mb-2">
                   <ArrowDownRight className="h-4 w-4" />
                   <span>波动/承压项</span>
                 </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {aiOperation.detractors.map((unit, index) => (
-                    <span key={index} className="bg-[#A8E6CF]/30 text-[#27C781] border border-[#A8E6CF]/30 px-2 py-0.5 rounded-lg text-[12px] font-medium">
-                      {unit}
-                    </span>
-                  ))}
+                <div className="space-y-2">
+                  <div className="flex items-start gap-2">
+                    <span className="bg-[#A8E6CF]/30 text-[#27C781] border border-[#27C781]/30 px-1.5 py-0.5 rounded text-[12px] font-medium shrink-0">财富中心</span>
+                    <div className="text-[#6B7280]">永安林业<span className="text-[#27C781] font-bold">(-236W)</span></div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="bg-[#A8E6CF]/30 text-[#27C781] border border-[#27C781]/30 px-1.5 py-0.5 rounded text-[12px] font-medium shrink-0">天风国际</span>
+                    <div className="text-[#6B7280]">期货投资亏损<span className="text-[#27C781] font-bold">(-324W)</span></div>
+                  </div>
                 </div>
               </div>
             </div>
