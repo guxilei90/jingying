@@ -248,21 +248,7 @@ export const OperationalSection: React.FC<OperationalSectionProps> = ({
           })}
         </div>
 
-        {/* Legend / Caption footer */}
-        <div className="mt-5 flex flex-col md:flex-row md:items-center justify-between text-[16px] text-[#6B7280] gap-2 border-t border-[#E5E7EB] pt-3.5">
-          <span>数据源: 集中交易柜台、TA估值清算系统 · 实结T-0 16:30对齐（分时条线数据已按自筹责任中枢扎差并轧）</span>
-          <div className="flex items-center gap-3 font-semibold text-[14px] shrink-0">
-            <span className="flex items-center gap-1">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#F7C4AB]0"></span> 
-              <span className="text-red-650">T-1日创富盈利</span>
-            </span>
-            <span className="flex items-center gap-1">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#F7C4AB]"></span> 
-              <span className="text-[#ECB66D]">T-1日波动回撤</span>
-            </span>
-          </div>
         </div>
-      </div>
 
       {/* RIGHT COMPONENT (lg:col-span-3): Annual Budget Progress Status Guard */}
       <div className="lg:col-span-3 bg-[#FFFFFF] border border-[#E5E7EB] rounded-3xl p-6 shadow-[0_10px_30px_rgba(0,0,0,0.015)] hover:shadow-[0_12px_35px_rgba(0,0,0,0.025)] transition-all flex flex-col justify-between">
@@ -442,16 +428,124 @@ export const OperationalSection: React.FC<OperationalSectionProps> = ({
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Dynamic Actionable decision box at bottom */}
-        <div className="mt-4 bg-[#f8fafc] border border-[#E5E7EB] p-3 rounded-2xl text-[10.5px]">
-          <div className="flex items-center gap-1 font-bold text-[#1F2937] pb-1.5 mb-1.5 border-b border-[#E5E7EB]">
-            <Sparkles className="h-3.5 w-3.5 text-[#6287EE] shrink-0" />
-            <span>天风决策赋能建议</span>
+      {/* 每日资讯概览卡片 */}
+      <div className="lg:col-span-4 bg-white border border-[#E5E7EB] rounded-2xl p-4 shadow-sm">
+        <div className="flex items-center gap-2 mb-3 border-b border-[#E5E7EB] pb-2">
+          <span className="w-1.5 h-4 bg-[#886CE6] rounded-full"></span>
+          <h3 className="text-[16px] font-bold text-[#1F2937]">每日资讯概览</h3>
+        </div>
+        <div className="space-y-3 text-[14px]">
+          <div className="border-b border-[#E5E7EB] pb-3">
+            <div className="font-semibold text-[#1F2937] mb-2 flex items-center gap-1.5">
+              <span className="w-1 h-1 bg-[#886CE6] rounded-full"></span>
+              <span>券商公告</span>
+            </div>
+            <div className="text-[#1F2937] pl-4">
+              <p>1.中信证券 2025 年度 A 股权益分派实施公告:公司拟向全体 A 股股东每股派送现金红利 <strong className="font-mono font-bold">0.41</strong> 元，共派送现金红利 <strong className="font-mono font-bold">5,002,192,689.34</strong> 元，股权登记日为 <strong className="font-mono font-bold">2026 年 6 月 9 日</strong>，现金红利发放日为 <strong className="font-mono font-bold">2026 年 6 月 10 日</strong>。</p>
+            </div>
           </div>
-          <p className="text-[#6B7280] leading-relaxed text-[14px]">
-            当前财富管理仅差 <strong className="text-amber-600 font-mono">0.8%</strong> 即可回填时间线，建议强化季末代销及基金固收自研转化；投资银行当前缺口较大（-4.8%），需加快项目投决会审议进度和发行窗口期锁定。
-          </p>
+          <div>
+            <div className="font-semibold text-[#1F2937] mb-2 flex items-center gap-1.5">
+              <span className="w-1 h-1 bg-[#886CE6] rounded-full"></span>
+              <span>行业动态</span>
+            </div>
+            <div className="text-[#1F2937] pl-4 space-y-1">
+              <p>1.年内券商发债突破 <strong className="font-mono font-bold">1 万亿元</strong>，同比增长 <strong className="font-mono font-bold">114.86%</strong></p>
+              <p>2."透支式分红"频现，高分红热潮背后有隐忧，上市公司分红要量更要质</p>
+              <p>3.科创债年内发行规模超 <strong className="font-mono font-bold">8,500 亿元</strong>，市场有望持续扩容</p>
+              <p>4.港股 IPO 保荐人格局:中金公司 <strong className="font-mono font-bold">71 个</strong>项目领跑，多家券商各有表现</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 公司收发文卡片 */}
+      <div className="lg:col-span-8 bg-white border border-[#E5E7EB] rounded-2xl p-4 shadow-sm">
+        <div className="flex items-center gap-2 mb-3 border-b border-[#E5E7EB] pb-2">
+          <span className="w-1.5 h-4 bg-[#27C781] rounded-full"></span>
+          <h3 className="text-[16px] font-bold text-[#1F2937]">公司收发文</h3>
+        </div>
+        <div className="space-y-4 text-[14px]">
+          {/* 收文 */}
+          <div>
+            <table className="w-full text-[#1F2937] table-fixed">
+              <colgroup>
+                <col style={{width: '6%'}} />
+                <col style={{width: '14%'}} />
+                <col style={{width: '50%'}} />
+                <col style={{width: '30%'}} />
+              </colgroup>
+              <thead>
+                <tr className="border-b border-[#E5E7EB]">
+                  <th className="text-left font-medium py-1"><span className="font-semibold text-[#1F2937]">收文</span></th>
+                  <th className="text-left font-medium py-1">发文单位</th>
+                  <th className="text-left font-medium py-1">标题</th>
+                  <th className="text-left font-medium py-1">主送部门</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-[#E5E7EB]/50">
+                  <td className="py-1.5"></td>
+                  <td className="py-1.5">中国证券业协会</td>
+                  <td className="py-1.5">关于反馈证券公司数字化能力成熟度评估复核得分的通知 (第二轮)</td>
+                  <td className="py-1.5">-</td>
+                </tr>
+                <tr className="border-b border-[#E5E7EB]/50">
+                  <td className="py-1.5"></td>
+                  <td className="py-1.5">中国证券业协会</td>
+                  <td className="py-1.5">中国证券业协会重点课题评审感谢信(天风证券)</td>
+                  <td className="py-1.5">-</td>
+                </tr>
+                <tr className="border-b border-[#E5E7EB]/50">
+                  <td className="py-1.5"></td>
+                  <td className="py-1.5">中国证券业协会</td>
+                  <td className="py-1.5">关于填报证券行业税务问题调研问卷的函</td>
+                  <td className="py-1.5">-</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          {/* 发文 */}
+          <div>
+            <table className="w-full text-[#1F2937] table-fixed">
+              <colgroup>
+                <col style={{width: '6%'}} />
+                <col style={{width: '14%'}} />
+                <col style={{width: '50%'}} />
+                <col style={{width: '30%'}} />
+              </colgroup>
+              <thead>
+                <tr className="border-b border-[#E5E7EB]">
+                  <th className="text-left font-medium py-1"><span className="font-semibold text-[#1F2937]">发文</span></th>
+                  <th className="text-left font-medium py-1">发文提起部门</th>
+                  <th className="text-left font-medium py-1">标题</th>
+                  <th className="text-left font-medium py-1">主送单位</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-[#E5E7EB]/50">
+                  <td className="py-1.5"></td>
+                  <td className="py-1.5">合规法律部</td>
+                  <td className="py-1.5">关于南京鼎之昇诉天风证券、天风资管委托合同纠纷案 一审判决的报告</td>
+                  <td className="py-1.5">宏泰集团</td>
+                </tr>
+                <tr className="border-b border-[#E5E7EB]/50">
+                  <td className="py-1.5"></td>
+                  <td className="py-1.5">人力资源部</td>
+                  <td className="py-1.5">天风证券关于解除李正友等 4 人劳动关系的报告</td>
+                  <td className="py-1.5">湖北监管局</td>
+                </tr>
+                <tr className="border-b border-[#E5E7EB]/50">
+                  <td className="py-1.5"></td>
+                  <td className="py-1.5">风险管理部</td>
+                  <td className="py-1.5">关于光大银行代销集合产品风险处置情况紧急报告 (湖北监管局、上海监管局)</td>
+                  <td className="py-1.5">湖北监管局、上海监管局</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 

@@ -64,7 +64,14 @@ export default function App() {
                         <strong className="text-blue-600 font-bold font-sans">
                           {selectedScenario === 'morning' ? '研判场景' : '日终盘后业绩结转场景 (盘后清账)'}
                         </strong>
-                        （数据结转清算时间：{selectedDate} {selectedScenario === 'morning' ? '08:30:00' : '17:00:00'}）
+                        （数据结转清算时间：
+                        <input
+                          type="date"
+                          value={selectedDate}
+                          onChange={(e) => setSelectedDate(e.target.value)}
+                          className="bg-blue-50 border border-blue-300 text-blue-600 font-mono px-2 py-1 rounded cursor-pointer hover:border-blue-500 hover:bg-blue-100 outline-none text-[14px]"
+                        />
+                        ）
                       </span>
                     </div>
                     <div className="text-[14px] text-slate-500 font-mono">

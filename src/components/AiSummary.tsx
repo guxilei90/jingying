@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Sparkles, RefreshCw, ArrowUpRight, ArrowDownRight, Lightbulb, ShieldAlert, Cpu, Landmark } from 'lucide-react';
+import { Sparkles, RefreshCw, ArrowUpRight, ArrowDownRight, Lightbulb, ShieldAlert, Cpu, Landmark, Info, ChevronRight } from 'lucide-react';
 import { AiOperationNarrative, AiInvestmentNarrative, ManagementOverview, MarketOverview as MarketOverviewType } from '../types';
 
 interface AiSummaryProps {
@@ -34,6 +34,7 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
     profitYear: 0,
   });
   const [animatedProgress, setAnimatedProgress] = useState({ budget: 0, profitRatio: 0 });
+  const [showAlertModal, setShowAlertModal] = useState(false);
 
   // Count-up animation for numbers and progress bars
   useEffect(() => {
@@ -305,8 +306,57 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
               </div>
             </div>
           </div>
+
+          {/* 提醒条（hover显示浮窗） */}
+          <div className="mt-4 relative group">
+            {/* Hover浮窗 - 在提醒条上方滑出，不被裁剪 */}
+            <div className="absolute left-0 right-0 bottom-full mb-2 origin-bottom bg-white rounded-xl p-5 shadow-xl border border-blue-100 z-30 scale-y-0 opacity-0 group-hover:scale-y-100 group-hover:opacity-100 transition-all duration-300 overflow-y-auto max-h-[60vh]">
+              <div className="text-[14px] text-[#1F2937] space-y-3">
+                <p className="font-semibold text-[16px]">1-5月累计营收较前期上报口径发生变动，各条线营收调整如下：</p>
+                <div className="space-y-2 pl-4 text-[14px]">
+                  <p><span className="font-semibold">1. 企融委：</span>营收调减<span className="font-mono font-bold">1202万元</span>，原因为板块间协同收入划转，对应收入由企融委转出至财富管理中心。</p>
+                  <p><span className="font-semibold">2. 投行委：</span>营收合计调增<span className="font-mono font-bold">8609万元</span>，由三部分构成：一是兴福电子项目协同收入划入6868万元；二是天风天睿划转业务收入1697万元；三是新增其他业务收入入账44万元。</p>
+                  <p><span className="font-semibold">3. 财富中心：</span>营收合计调增<span className="font-mono font-bold">1409万元</span>，其中自企业融资委划入协同收入1202万元，其余207万元为新增其他业务收入。</p>
+                  <p><span className="font-semibold">4. 天风天睿：</span>营收调增<span className="font-mono font-bold">757万元</span>，调整成因包含三项：一是24亿元关联借款补充协议落地，协议约定借款免息，冲回2026年1月28日至5月22日期间已计提利息2843万元；二是项目公允价值估值变动调减营收145万元；三是划转投行委业务收入，相应扣减营收1697万元。</p>
+                  <p><span className="font-semibold">5. 天风国际：</span>营收调增<span className="font-mono font-bold">2411万元</span>，系期货投资收益补记，前期1-5月累计营收核算截止日为5月28日，本次补计5月29日实现的期货投资盈利。</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-3 flex items-center justify-between group-hover:from-blue-100 hover:to-indigo-100 transition-all cursor-pointer">
+              <div className="flex items-center gap-3">
+                <div className="relative flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full group-hover:bg-blue-200 transition-colors">
+                  <Info className="h-4 w-4 text-blue-600" />
+                  <span className="absolute inset-0 rounded-full bg-blue-400 animate-ping opacity-20"></span>
+                </div>
+                <span className="text-[14px] font-semibold text-blue-700">月度经营数据调整提醒</span>
+              </div>
+              <ChevronRight className="h-4 w-4 text-blue-400 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* 浮窗 */}
+      {showAlertModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowAlertModal(false)}>
+          <div className="bg-white rounded-2xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-[16px] font-bold text-[#1F2937]">月度经营数据调整提醒</h3>
+              <button onClick={() => setShowAlertModal(false)} className="text-[#6B7280] hover:text-[#1F2937] text-xl">✕</button>
+            </div>
+            <div className="text-[14px] text-[#1F2937] space-y-3">
+              <p className="font-semibold">1-5月累计营收较前期上报口径发生变动，各条线营收调整如下：</p>
+              <div className="space-y-2 pl-4">
+                <p><span className="font-semibold">1. 企融委：</span>营收调减<span className="font-mono font-bold">1202万元</span>，原因为板块间协同收入划转，对应收入由企融委转出至财富管理中心。</p>
+                <p><span className="font-semibold">2. 投行委：</span>营收合计调增<span className="font-mono font-bold">8609万元</span>，由三部分构成：一是兴福电子项目协同收入划入6868万元；二是天风天睿划转业务收入1697万元；三是新增其他业务收入入账44万元。</p>
+                <p><span className="font-semibold">3. 财富中心：</span>营收合计调增<span className="font-mono font-bold">1409万元</span>，其中自企业融资委划入协同收入1202万元，其余207万元为新增其他业务收入。</p>
+                <p><span className="font-semibold">4. 天风天睿：</span>营收调增<span className="font-mono font-bold">757万元</span>，调整成因包含三项：一是24亿元关联借款补充协议落地，协议约定借款免息，冲回2026年1月28日至5月22日期间已计提利息2843万元；二是项目公允价值估值变动调减营收145万元；三是划转投行委业务收入，相应扣减营收1697万元。</p>
+                <p><span className="font-semibold">5. 天风国际：</span>营收调增<span className="font-mono font-bold">2411万元</span>，系期货投资收益补记，前期1-5月累计营收核算截止日为5月28日，本次补计5月29日实现的期货投资盈利。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* RIGHT CARD (Col-span 5): AI经营与投资决策摘要 */}
       <div className="lg:col-span-5 bg-[#FFFFFF] border border-[#E5E7EB] rounded-3xl p-6 shadow-[0_10px_30px_rgba(0,0,0,0.015)] relative overflow-hidden flex flex-col justify-between hover:shadow-[0_12px_35px_rgba(0,0,0,0.025)] transition-all">
