@@ -125,10 +125,10 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 px-1 py-1 select-none">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-5 px-1 py-1 select-none items-stretch">
 
       {/* LEFT CARD (Col-span 7): 营业收入 & 利润总额 大盘实况卡片 */}
-      <div className="lg:col-span-7 bg-[#F8F9FB] border border-[#E8EAEF] rounded-3xl p-6 shadow-[0_4px_24px_rgba(0,0,0,0.04)] flex flex-col justify-between hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] transition-all relative overflow-hidden min-h-[340px]">
+      <div className="md:col-span-1 lg:col-span-7 bg-[#F8F9FB] border border-[#E8EAEF] rounded-3xl p-6 shadow-[0_4px_24px_rgba(0,0,0,0.04)] flex flex-col justify-between hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] transition-all relative overflow-hidden min-h-[340px]">
         {/* Decorative flowing lines background */}
         <svg className="absolute top-0 left-0 w-full h-full pointer-events-none" style={{opacity: '0.03'}} viewBox="0 0 400 300" preserveAspectRatio="none">
           <path d="M0,150 Q100,100 200,150 T400,150" fill="none" stroke="#6287EE" strokeWidth="1"/>
@@ -359,7 +359,7 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
       )}
 
       {/* RIGHT CARD (Col-span 5): AI经营与投资决策摘要 */}
-      <div className="lg:col-span-5 bg-[#FFFFFF] border border-[#E5E7EB] rounded-3xl p-6 shadow-[0_10px_30px_rgba(0,0,0,0.015)] relative overflow-hidden flex flex-col justify-between hover:shadow-[0_12px_35px_rgba(0,0,0,0.025)] transition-all">
+      <div className="md:col-span-1 lg:col-span-5 bg-[#FFFFFF] border border-[#E5E7EB] rounded-3xl p-6 shadow-[0_10px_30px_rgba(0,0,0,0.015)] relative overflow-hidden flex flex-col justify-between hover:shadow-[0_12px_35px_rgba(0,0,0,0.025)] transition-all">
         <div className="absolute top-0 right-0 h-44 w-44 bg-[#6287EE]/20 rounded-full blur-3xl pointer-events-none"></div>
         <div>
           <div className="flex items-center justify-between border-b border-slate-50 pb-3 mb-4">
@@ -403,7 +403,7 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <div className="bg-[#F7C4AB]/10 border border-[#F7C4AB]/20 rounded-xl p-3">
+              <div className="bg-[#F7C4AB]/30 border border-[#F7C4AB]/60 rounded-xl p-3">
                 <div className="flex items-center gap-1.5 text-[#ED6C3D] font-semibold text-[14px] mb-2">
                   <ArrowUpRight className="h-4 w-4" />
                   <span>核心创富主体</span>
@@ -411,11 +411,11 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
                 <div className="space-y-2">
                   <div className="flex items-start gap-2">
                     <span className="bg-[#F7C4AB]/30 text-[#ED6C3D] border border-[#ED6C3D]/30 px-1.5 py-0.5 rounded text-[12px] font-medium shrink-0">上海自营</span>
-                    <div className="text-[#6B7280]">通信ETF国泰<span className="text-[#ED6C3D] font-bold">(+412W)</span>、通信ETF华夏<span className="text-[#ED6C3D] font-bold">(+334W)</span>、创业板ETF易方达<span className="text-[#ED6C3D] font-bold">(+145W)</span>、电网设备ETF华夏<span className="text-[#ED6C3D] font-bold">(+138W)</span></div>
+                    <div className="text-[#1F2937] text-[12px]">通信ETF国泰<span className="text-[#ED6C3D] font-bold">(+412W)</span><br/>通信ETF华夏<span className="text-[#ED6C3D] font-bold">(+334W)</span><br/>创业板ETF易方达<span className="text-[#ED6C3D] font-bold">(+145W)</span><br/>电网设备ETF华夏<span className="text-[#ED6C3D] font-bold">(+138W)</span></div>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="bg-[#F7C4AB]/30 text-[#ED6C3D] border border-[#ED6C3D]/30 px-1.5 py-0.5 rounded text-[12px] font-medium shrink-0">天风创新</span>
-                    <div className="text-[#6B7280]">兴福电子<span className="text-[#ED6C3D] font-bold">(+1,435W)</span></div>
+                    <div className="text-[#1F2937] text-[12px]">兴福电子<span className="text-[#ED6C3D] font-bold">(+1,435W)</span></div>
                   </div>
                 </div>
               </div>
@@ -428,11 +428,11 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
                 <div className="space-y-2">
                   <div className="flex items-start gap-2">
                     <span className="bg-[#A8E6CF]/30 text-[#27C781] border border-[#27C781]/30 px-1.5 py-0.5 rounded text-[12px] font-medium shrink-0">财富中心</span>
-                    <div className="text-[#6B7280]">永安林业<span className="text-[#27C781] font-bold">(-236W)</span></div>
+                    <div className="text-[#1F2937] text-[12px]">永安林业<span className="text-[#27C781] font-bold">(-236W)</span></div>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="bg-[#A8E6CF]/30 text-[#27C781] border border-[#27C781]/30 px-1.5 py-0.5 rounded text-[12px] font-medium shrink-0">天风国际</span>
-                    <div className="text-[#6B7280]">期货投资亏损<span className="text-[#27C781] font-bold">(-324W)</span></div>
+                    <div className="text-[#1F2937] text-[12px]">期货投资亏损<span className="text-[#27C781] font-bold">(-324W)</span></div>
                   </div>
                 </div>
               </div>
@@ -448,7 +448,7 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
                     </span>
                   </div>
                   <div className="text-[18px] font-mono font-bold text-[#1F2937]">{index.points.toFixed(2)}</div>
-                  <div className="text-[14px] text-[#6B7280] mt-1">成交 {index.volume.toLocaleString()} 亿</div>
+                  <div className="text-[14px] text-[#6B7280] mt-1">成交 {Math.round(index.volume).toLocaleString()} 亿</div>
                 </div>
               ))}
             </div>

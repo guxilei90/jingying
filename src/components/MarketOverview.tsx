@@ -63,8 +63,6 @@ export const MarketOverview: React.FC<MarketOverviewProps> = ({ marketOverview }
             <div className={`font-mono text-[14px] font-semibold ${getTrendColor(index.changePercent)}`}>
               {index.changePercent > 0 ? '+' : ''}{index.changePercent}%
             </div>
-            <div className="mt-1 text-[12px] text-[#6B7280]">
-              成交 {index.volume.toLocaleString()} 亿
             </div>
           </div>
         ))}

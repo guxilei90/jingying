@@ -38,22 +38,22 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
       aiOperation: {
         revenueText: "今日营业收入达 785.40 万元，同比增长 12.4%。",
         profitText: "利润总额达 312.20 万元，同比增长 8.5%。",
-        contributors: ["财富管理中心", "天风（上海）证券资产管理有限公司", "投资银行委员会"],
-        detractors: ["上海证券自营分公司权益业务", "公司总部投资"],
+        contributors: ["财富管理中心", "天风资管", "股权投行"],
+        detractors: ["上海自营权益业务", "公司总部投资"],
         highlights: [
           "财富管理佣金手续费重回高点，今日拉动48%业绩表现",
-          "投资银行委员会IPO及债券承销单日创收累计突破百万元"
+          "股权投行IPO及债券承销单日创收累计突破百万元"
         ],
         risks: [
-          "上海证券自营分公司权益类仓位受今日早盘盘面微跌影响，录得浮亏35万元",
+          "上海自营权益类仓位受今日早盘盘面微跌影响，录得浮亏35万元",
           "股票质押收入受质押规模持续下降及风险合规收紧影响，利润较上月环比下降5.2%"
         ],
-        summaryParagraph: "今日预计营业收入同比增长12%，利润总额增长8.5%。主要贡献来自财富管理中心、天风资管和投资银行委员会。上海自营权益业务因权益回撤有所拖累。建议重点关注股票质押收入随着规模萎缩而持续下降的情况，防范相关质押履约保障比例破位风险。"
+        summaryParagraph: "今日预计营业收入同比增长12%，利润总额增长8.5%。主要贡献来自财富管理中心、天风资管和股权投行。上海自营权益业务因权益回撤有所拖累。建议重点关注股票质押收入随着规模萎缩而持续下降的情况，防范相关质押履约保障比例破位风险。"
       },
       operatingUnits: [
         {
           id: 'bu-corp-finance',
-          name: '企业融资业务委员会',
+          name: '债权投行',
           manager: '张建军',
           todayRevenue: 85.00,
           todayProfit: 35.00,
@@ -69,7 +69,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-ib',
-          name: '投资银行委员会',
+          name: '股权投行',
           manager: '王晓宇',
           todayRevenue: 120.00,
           todayProfit: 48.00,
@@ -103,7 +103,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-proprietary',
-          name: '上海证券自营分公司',
+          name: '上海自营',
           manager: '钱敏行',
           todayRevenue: 95.00,
           todayProfit: -35.00,
@@ -119,8 +119,20 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
           ]
         },
         {
+          id: 'bu-equity',
+          name: '权益投资部',
+          manager: '钱敏行',
+          todayRevenue: -35.00,
+          todayProfit: -35.00,
+          monthProfit: 240.00,
+          yearProfit: 2800.00,
+          revenueRatio: 12.1,
+          profitRatio: -11.2,
+          budgetCompletion: 41.2
+        },
+        {
           id: 'bu-tf-am',
-          name: '天风（上海）证券资产管理有限公司',
+          name: '天风资管',
           manager: '赵元峰',
           todayRevenue: 75.00,
           todayProfit: 41.50,
@@ -152,7 +164,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-hainan-research',
-          name: '海南研究咨询分公司',
+          name: '研究所',
           manager: '李德华',
           todayRevenue: 12.50,
           todayProfit: 2.20,
@@ -184,7 +196,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-tf-intl',
-          name: '天风国际证券集团有限公司',
+          name: '天风国际',
           manager: 'Donald Chen',
           todayRevenue: 48.00,
           todayProfit: 22.00,
@@ -200,7 +212,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-tf-rui',
-          name: '天风天睿投资有限公司',
+          name: '天风天睿',
           manager: '郑捷',
           todayRevenue: 15.00,
           todayProfit: 8.50,
@@ -215,7 +227,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-tf-creative',
-          name: '天风创新投资有限公司',
+          name: '天风创新',
           manager: '徐立新',
           todayRevenue: 5.00,
           todayProfit: 3.50,
@@ -230,7 +242,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-tf-property',
-          name: '天风天睿物业管理（武汉）有限公司',
+          name: '天风物业',
           manager: '孙桂兰',
           todayRevenue: 4.50,
           todayProfit: 1.50,
@@ -322,7 +334,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         revenueText: "盘后全口径收入录得 895.00 万元，同比增长高达 13.5%。",
         profitText: "今日实现最终利润总额 368.40 万元，较去年同期大增 9.2%。",
         contributors: ["财富管理中心", "天风资管", "上海自营做市和固收"],
-        detractors: ["上海证券自营分公司权益业务部分"],
+        detractors: ["上海自营权益业务部分"],
         highlights: [
           "财富管理交易佣金及新发基金申购活跃度破前期峰值，全天单日拉动利润192万元",
           "天风资管通道及主动管理资产利差收益结转顺利"
@@ -336,7 +348,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
       operatingUnits: [
         {
           id: 'bu-corp-finance',
-          name: '企业融资业务委员会',
+          name: '债权投行',
           manager: '张建军',
           todayRevenue: 79.50,
           todayProfit: 29.50,
@@ -352,7 +364,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-ib',
-          name: '投资银行委员会',
+          name: '股权投行',
           manager: '王晓宇',
           todayRevenue: 120.00,
           todayProfit: 48.00,
@@ -386,7 +398,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-proprietary',
-          name: '上海证券自营分公司',
+          name: '上海自营',
           manager: '钱敏行',
           todayRevenue: 110.00,
           todayProfit: -25.00,
@@ -403,7 +415,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-tf-am',
-          name: '天风（上海）证券资产管理有限公司',
+          name: '天风资管',
           manager: '赵元峰',
           todayRevenue: 80.00,
           todayProfit: 45.40,
@@ -435,7 +447,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-hainan-research',
-          name: '海南研究咨询分公司',
+          name: '研究所',
           manager: '李德华',
           todayRevenue: 14.50,
           todayProfit: 3.50,
@@ -467,7 +479,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-tf-intl',
-          name: '天风国际证券集团有限公司',
+          name: '天风国际',
           manager: 'Donald Chen',
           todayRevenue: 50.00,
           todayProfit: 24.00,
@@ -483,7 +495,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-tf-rui',
-          name: '天风天睿投资有限公司',
+          name: '天风天睿',
           manager: '郑捷',
           todayRevenue: 15.00,
           todayProfit: 8.50,
@@ -498,7 +510,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-tf-creative',
-          name: '天风创新投资有限公司',
+          name: '天风创新',
           manager: '徐立新',
           todayRevenue: 5.00,
           todayProfit: 3.50,
@@ -513,7 +525,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-tf-property',
-          name: '天风天睿物业管理（武汉）有限公司',
+          name: '天风物业',
           manager: '孙桂兰',
           todayRevenue: 4.50,
           todayProfit: 1.50,
@@ -595,8 +607,8 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
       aiOperation: {
         revenueText: "今日营业收入录得 710.20 万元，同比增长 10.2%。",
         profitText: "今日预计实现利润总额 284.10 万元，基本符合阶段目标。",
-        contributors: ["投资银行委员会", "财富管理中心"],
-        detractors: ["海南研究咨询分公司", "天风创新投资有限公司"],
+        contributors: ["股权投行", "财富管理中心"],
+        detractors: ["研究所", "天风创新"],
         highlights: ["投行债权项目承销发力，单日增收85万元"],
         risks: ["两融生息资产下降，质押业务坏款压力微弱盘旋"],
         summaryParagraph: "今日预计营业收入同比增长10.2%，利润总额增长7.9%。主要利润创收来自投行债券承销与财富管理交易中枢，自营本日持平。昨日有一笔海南分公司服务出现延宕，稍微影响了外部研报结算期。提示关注资管和代销业务由于中端产品到期所产生的规模赎回变动。"
@@ -604,7 +616,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
       operatingUnits: [
         {
           id: 'bu-corp-finance',
-          name: '企业融资业务委员会',
+          name: '债权投行',
           manager: '张建军',
           todayRevenue: 65.00,
           todayProfit: 25.00,
@@ -620,7 +632,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-ib',
-          name: '投资银行委员会',
+          name: '股权投行',
           manager: '王晓宇',
           todayRevenue: 135.00,
           todayProfit: 55.00,
@@ -637,7 +649,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-hainan-research',
-          name: '海南研究咨询分公司',
+          name: '研究所',
           manager: '李德华',
           todayRevenue: 8.00,
           todayProfit: -1.00,
@@ -670,7 +682,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-proprietary',
-          name: '上海证券自营分公司',
+          name: '上海自营',
           manager: '钱敏行',
           todayRevenue: 105.00,
           todayProfit: 10.00,
@@ -684,6 +696,18 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
             { id: 'bu-p-2', name: '固收类', todayRevenue: 100.00, monthRevenue: 310.00, yearRevenue: 4100.00 },
             { id: 'bu-p-3', name: '做市类', todayRevenue: 20.00, monthRevenue: 70.00, yearRevenue: 900.00 }
           ]
+        },
+        {
+          id: 'bu-equity',
+          name: '权益投资部',
+          manager: '钱敏行',
+          todayRevenue: -15.00,
+          todayProfit: -15.00,
+          monthProfit: 275.00,
+          yearProfit: 2835.00,
+          revenueRatio: 12.1,
+          profitRatio: -11.2,
+          budgetCompletion: 41.2
         },
         {
           id: 'bu-inst-advisor',
@@ -719,7 +743,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-tf-am',
-          name: '天风（上海）证券资产管理有限公司',
+          name: '天风资管',
           manager: '赵元峰',
           todayRevenue: 60.00,
           todayProfit: 32.00,
@@ -735,7 +759,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-tf-intl',
-          name: '天风国际证券集团有限公司',
+          name: '天风国际',
           manager: 'Donald Chen',
           todayRevenue: 50.00,
           todayProfit: 23.00,
@@ -751,7 +775,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-tf-rui',
-          name: '天风天睿投资有限公司',
+          name: '天风天睿',
           manager: '郑捷',
           todayRevenue: 10.00,
           todayProfit: 5.00,
@@ -766,7 +790,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-tf-creative',
-          name: '天风创新投资有限公司',
+          name: '天风创新',
           manager: '徐立新',
           todayRevenue: -3.00,
           todayProfit: -5.00,
@@ -781,7 +805,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-tf-property',
-          name: '天风天睿物业管理（武汉）有限公司',
+          name: '天风物业',
           manager: '孙桂兰',
           todayRevenue: 4.50,
           todayProfit: 1.40,
@@ -868,7 +892,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
       operatingUnits: [
         {
           id: 'bu-corp-finance',
-          name: '企业融资业务委员会',
+          name: '债权投行',
           manager: '张建军',
           todayRevenue: 65.00,
           todayProfit: 25.00,
@@ -884,7 +908,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-ib',
-          name: '投资银行委员会',
+          name: '股权投行',
           manager: '王晓宇',
           todayRevenue: 135.00,
           todayProfit: 55.00,
@@ -901,7 +925,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-hainan-research',
-          name: '海南研究咨询分公司',
+          name: '研究所',
           manager: '李德华',
           todayRevenue: 10.00,
           todayProfit: 1.00,
@@ -934,7 +958,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-proprietary',
-          name: '上海证券自营分公司',
+          name: '上海自营',
           manager: '钱敏行',
           todayRevenue: 110.00,
           todayProfit: -10.00,
@@ -948,6 +972,18 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
             { id: 'bu-p-2', name: '固收类', todayRevenue: 100.00, monthRevenue: 310.00, yearRevenue: 4100.00 },
             { id: 'bu-p-3', name: '做市类', todayRevenue: 20.00, monthRevenue: 70.00, yearRevenue: 900.00 }
           ]
+        },
+        {
+          id: 'bu-equity',
+          name: '权益投资部',
+          manager: '钱敏行',
+          todayRevenue: -10.00,
+          todayProfit: -10.00,
+          monthProfit: 255.00,
+          yearProfit: 2815.00,
+          revenueRatio: 12.1,
+          profitRatio: -11.2,
+          budgetCompletion: 41.2
         },
         {
           id: 'bu-inst-advisor',
@@ -983,7 +1019,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-tf-am',
-          name: '天风（上海）证券资产管理有限公司',
+          name: '天风资管',
           manager: '赵元峰',
           todayRevenue: 75.00,
           todayProfit: 45.00,
@@ -999,7 +1035,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-tf-intl',
-          name: '天风国际证券集团有限公司',
+          name: '天风国际',
           manager: 'Donald Chen',
           todayRevenue: 50.00,
           todayProfit: 23.00,
@@ -1015,7 +1051,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-tf-rui',
-          name: '天风天睿投资有限公司',
+          name: '天风天睿',
           manager: '郑捷',
           todayRevenue: 10.00,
           todayProfit: 5.00,
@@ -1030,7 +1066,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-tf-creative',
-          name: '天风创新投资有限公司',
+          name: '天风创新',
           manager: '徐立新',
           todayRevenue: -3.00,
           todayProfit: -5.00,
@@ -1045,7 +1081,7 @@ export const mockFinancialData: Record<string, Record<'morning' | 'evening', Dai
         },
         {
           id: 'bu-tf-property',
-          name: '天风天睿物业管理（武汉）有限公司',
+          name: '天风物业',
           manager: '孙桂兰',
           todayRevenue: 4.50,
           todayProfit: 1.40,

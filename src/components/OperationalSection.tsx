@@ -47,7 +47,7 @@ export const OperationalSection: React.FC<OperationalSectionProps> = ({
 
   // Sort and filter the business units
   const filteredUnits = operatingUnits
-    .filter(unit => unit.name.toLowerCase().includes(searchQuery.toLowerCase()) || unit.manager.includes(searchQuery))
+    .filter(unit => unit.id !== 'bu-equity' && (unit.name.toLowerCase().includes(searchQuery.toLowerCase()) || unit.manager.includes(searchQuery)))
     .sort((a, b) => {
       if (sortBy === 'todayProfit') return b.todayProfit - a.todayProfit;
       if (sortBy === 'yearProfit') return b.yearProfit - a.yearProfit;
@@ -162,17 +162,84 @@ export const OperationalSection: React.FC<OperationalSectionProps> = ({
 
                 {/* Bottom interactive and drill-down panels */}
                 <div>
+                  {/* 上海自营权益类和固收类卡片 - 在按钮上方 */}
+                  {unit.id === 'bu-proprietary' && hasChildren && isExpanded && (
+                    <div className="grid grid-cols-2 gap-2 mt-3 mb-2">
+                      {unit.children?.filter(sub => sub.id !== 'bu-p-3').map((sub) => {
+                        const isPos = sub.todayRevenue >= 0;
+                        return (
+                          <div
+                            key={sub.id}
+                            className="bg-[#f8fafc] hover:bg-[#EBEEF3]/50 border border-[#E5E7EB] rounded-xl p-2.5 transition-all text-[14px]"
+                          >
+                            <div className="flex items-center justify-between font-bold text-[#1F2937] pb-1 border-b border-[#E5E7EB]/60 text-[12px]">
+                              <span className="truncate text-[12px]">{sub.name}</span>
+                            </div>
+                            <div className="mt-2 space-y-1 font-mono text-[12px] text-[#6B7280]">
+                              <div className="flex justify-between">
+                                <span>日营收:</span>
+                                <span className="text-[#ED6C3D] font-semibold">
+                                  +{formatNum(sub.todayRevenue)}万
+                                </span>
+                              </div>
+                              <div className="flex justify-between text-[#6B7280]">
+                                <span>当年累计:</span>
+                                <span className="text-[#1F2937] font-semibold">{formatNum(sub.yearRevenue)}万</span>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+
                   {isProprietaryUnit && (
                     <div className="mt-2.5 bg-[#6287EE]/50 border border-[#6287EE] p-2 rounded-xl text-[14px] text-[#6287EE] flex items-center justify-between gap-1">
                       <span className="font-medium shrink-0">⚡️ 上海自营已与底层并账对齐</span>
                       {onProprietaryClick && (
-                        <button 
+                        <button
                           onClick={onProprietaryClick}
                           className="text-[12px] font-bold bg-[#6287EE] hover:bg-blue-700 text-white rounded-lg px-2 py-0.8 transition-all cursor-pointer shadow-xs whitespace-nowrap shrink-0"
                         >
                           [ 🎯 持仓穿透 ]
                         </button>
                       )}
+                    </div>
+                  )}
+
+                  {/* 权益投资部卡片 - 在上海自营卡片最下方 */}
+                  {unit.id === 'bu-proprietary' && (
+                    <div className="mt-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="w-1 h-3 bg-[#6287EE] rounded-full"></span>
+                          <div className="text-[16px] text-[#1F2937] font-bold">权益做市业务部</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-[12px] text-[#6B7280] font-sans">当日营收贡献</div>
+                          <span className="text-[14px] font-mono font-bold text-[#ED6C3D] bg-[#F7C4AB]/40 border border-[#ED6C3D]/30 px-1.5 py-0.2 rounded-md min-w-[5rem] text-center">
+                            12.1%
+                          </span>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-4 gap-2">
+                        <div className="bg-[#f8fafc] rounded-xl p-2.5 border border-[#E5E7EB]">
+                          <div className="text-[12px] text-[#6B7280] mb-1">日营收</div>
+                          <div className="text-[14px] font-mono font-bold text-[#27C781]">-35.00<span className="text-[12px] font-normal text-[#6B7280] ml-1">万</span></div>
+                        </div>
+                        <div className="bg-[#f8fafc] rounded-xl p-2.5 border border-[#E5E7EB]">
+                          <div className="text-[12px] text-[#6B7280] mb-1">当月累计营收</div>
+                          <div className="text-[14px] font-mono font-bold text-[#1F2937]">240.00<span className="text-[12px] font-normal text-[#6B7280] ml-1">万</span></div>
+                        </div>
+                        <div className="bg-[#f8fafc] rounded-xl p-2.5 border border-[#E5E7EB]">
+                          <div className="text-[12px] text-[#6B7280] mb-1">年累计营收</div>
+                          <div className="text-[14px] font-mono font-bold text-[#1F2937]">2,800.00<span className="text-[12px] font-normal text-[#6B7280] ml-1">万</span></div>
+                        </div>
+                        <div className="bg-[#f8fafc] rounded-xl p-2.5 border border-[#E5E7EB]">
+                          <div className="text-[12px] text-[#6B7280] mb-1">年累计利润总额</div>
+                          <div className="text-[14px] font-mono font-bold text-[#27C781]">-35.00<span className="text-[12px] font-normal text-[#6B7280] ml-1">万</span></div>
+                        </div>
+                      </div>
                     </div>
                   )}
 
@@ -183,36 +250,43 @@ export const OperationalSection: React.FC<OperationalSectionProps> = ({
                         {/* 当日新开客户数 */}
                         <div className="bg-[#F7F9FC] rounded-xl p-2.5 border border-[#E5E7EB]">
                           <div className="text-[12px] text-[#6B7280] mb-1">当日新开客户数</div>
-                          <div className="text-[14px] font-mono font-bold text-[#1F2937]">164<span className="text-[12px] font-normal text-[#6B7280] ml-2">本年 3.8万</span></div>
+                          <div className="text-[14px] font-mono font-bold text-[#1F2937]">164</div>
+                          <div className="text-[12px] text-[#6B7280] mt-1">本年 3.8万</div>
                           <div className="text-[12px] text-[#6B7280]">存量客户 <span className="font-mono">173万</span></div>
                         </div>
                         {/* 当日新开客户托管资产 */}
                         <div className="bg-[#F7F9FC] rounded-xl p-2.5 border border-[#E5E7EB]">
                           <div className="text-[12px] text-[#6B7280] mb-1">当日新开客户托管资产</div>
-                          <div className="text-[14px] font-mono font-bold text-[#1F2937]">135万<span className="text-[12px] font-normal text-[#6B7280] ml-2">本年 57.34亿</span></div>
+                          <div className="text-[14px] font-mono font-bold text-[#1F2937]">135万</div>
+                          <div className="text-[12px] text-[#6B7280] mt-1">本年 57.34亿</div>
                           <div className="text-[12px] text-[#6B7280]">托管资产 <span className="font-mono">2,457.18亿</span></div>
                         </div>
                         {/* 当日产品销量（非货） */}
                         <div className="bg-[#F7F9FC] rounded-xl p-2.5 border border-[#E5E7EB]">
                           <div className="text-[12px] text-[#6B7280] mb-1">当日产品销量（非货）</div>
-                          <div className="text-[14px] font-mono font-bold text-[#1F2937]">1.65亿<span className="text-[12px] font-normal text-[#6B7280] ml-2">本年 185.89亿</span></div>
+                          <div className="text-[14px] font-mono font-bold text-[#1F2937]">1.65亿</div>
+                          <div className="text-[12px] text-[#6B7280] mt-1">本年 185.89亿</div>
                           <div className="text-[12px] text-[#6B7280]">产品保有量 <span className="font-mono">50.55亿</span></div>
                         </div>
                         {/* 当日交易市占率 */}
                         <div className="bg-[#F7F9FC] rounded-xl p-2.5 border border-[#E5E7EB]">
                           <div className="text-[12px] text-[#6B7280] mb-1">当日交易市占率</div>
-                          <div className="text-[14px] font-mono font-bold text-[#1F2937]">1.9‰<span className="text-[12px] font-normal text-[#6B7280] ml-2">年均 1.91‰</span></div>
+                          <div className="text-[14px] font-mono font-bold text-[#1F2937]">1.9‰</div>
+                          <div className="text-[12px] text-[#6B7280] mt-1">年均 1.91‰</div>
                         </div>
                       </div>
                     </div>
                   )}
 
-                  {/* Nested fine items (collapsible cards for Wealth Management and Proprietary units only) */}
-                  {hasChildren && (unit.id === 'bu-wealth' || unit.id === 'bu-proprietary') && (
+                  {/* Nested fine items (collapsible cards for Wealth Management only) */}
+                  {hasChildren && unit.id === 'bu-wealth' && (
                     <div className="mt-3.5 pt-3 border-t border-[#E5E7EB]">
                       {isExpanded && (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mt-2">
-                          {unit.children?.map((sub) => {
+                        <div className="grid grid-cols-2 gap-2 mt-2">
+                          {unit.children?.filter(sub => {
+                            if (unit.id === 'bu-wealth' && sub.id === 'bu-w-3') return false;
+                            return true;
+                          }).map((sub) => {
                             const isPos = sub.todayRevenue >= 0;
                             return (
                               <div 
@@ -431,7 +505,7 @@ export const OperationalSection: React.FC<OperationalSectionProps> = ({
       </div>
 
       {/* 每日资讯概览卡片 */}
-      <div className="lg:col-span-4 bg-white border border-[#E5E7EB] rounded-2xl p-4 shadow-sm">
+      <div className="lg:col-span-4 bg-white border border-[#E5E7EB] rounded-2xl p-4">
         <div className="flex items-center gap-2 mb-3 border-b border-[#E5E7EB] pb-2">
           <span className="w-1.5 h-4 bg-[#886CE6] rounded-full"></span>
           <h3 className="text-[16px] font-bold text-[#1F2937]">每日资讯概览</h3>
@@ -462,7 +536,7 @@ export const OperationalSection: React.FC<OperationalSectionProps> = ({
       </div>
 
       {/* 公司收发文卡片 */}
-      <div className="lg:col-span-8 bg-white border border-[#E5E7EB] rounded-2xl p-4 shadow-sm">
+      <div className="lg:col-span-8 bg-white border border-[#E5E7EB] rounded-2xl p-4">
         <div className="flex items-center gap-2 mb-3 border-b border-[#E5E7EB] pb-2">
           <span className="w-1.5 h-4 bg-[#27C781] rounded-full"></span>
           <h3 className="text-[16px] font-bold text-[#1F2937]">公司收发文</h3>
