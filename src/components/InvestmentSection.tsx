@@ -33,6 +33,10 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
     netBuy: 0,
     dailyPnL: 0,
     yearPnL: 0,
+    // Sub-items for first three cards
+    totalValueByType: { stock: 0, etf: 0, futures: 0 },
+    netBuyByType: { stock: 0, etf: 0, futures: 0 },
+    pnlByType: { stock: 0, etf: 0, futures: 0 },
   });
 
   // Count-up animation for KPI values - triggers when switching to 盘后分析
@@ -44,6 +48,9 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
         netBuy: 0,
         dailyPnL: 0,
         yearPnL: 0,
+        totalValueByType: { stock: 0, etf: 0, futures: 0 },
+        netBuyByType: { stock: 0, etf: 0, futures: 0 },
+        pnlByType: { stock: 0, etf: 0, futures: 0 },
       });
     }
 
@@ -57,6 +64,10 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
       netBuy: -26.17,
       dailyPnL: -1.631,
       yearPnL: 9.644,
+      // Sub-items
+      totalValueByType: { stock: 12.50, etf: 8.20, futures: 5.10 },
+      netBuyByType: { stock: -15000, etf: -5000, futures: -6170 },
+      pnlByType: { stock: 820, etf: -350, futures: -2101 },
     };
 
     const timer = setInterval(() => {
@@ -69,6 +80,21 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
         netBuy: targetValues.netBuy * easeOut,
         dailyPnL: targetValues.dailyPnL * easeOut,
         yearPnL: targetValues.yearPnL * easeOut,
+        totalValueByType: {
+          stock: targetValues.totalValueByType.stock * easeOut,
+          etf: targetValues.totalValueByType.etf * easeOut,
+          futures: targetValues.totalValueByType.futures * easeOut,
+        },
+        netBuyByType: {
+          stock: targetValues.netBuyByType.stock * easeOut,
+          etf: targetValues.netBuyByType.etf * easeOut,
+          futures: targetValues.netBuyByType.futures * easeOut,
+        },
+        pnlByType: {
+          stock: targetValues.pnlByType.stock * easeOut,
+          etf: targetValues.pnlByType.etf * easeOut,
+          futures: targetValues.pnlByType.futures * easeOut,
+        },
       });
 
       if (step >= steps) {
@@ -220,19 +246,58 @@ export const InvestmentSection: React.FC<InvestmentSectionProps> = ({
           <div className="bg-[#F7F9FC] p-4 rounded-2xl border border-[#E5E7EB]">
             <span className="text-[14px] text-[#6B7280] font-semibold block">多账户持仓总市值</span>
             <span className="text-[20px] font-bold text-slate-900 font-mono mt-2 block">{animatedKpi.totalValue.toFixed(2)} 亿元</span>
-            <span className="text-[12px] text-[#6B7280] block mt-1 font-sans">对应并账底层资产258,000万</span>
+            <div className="flex items-center justify-between mt-2 pt-2 border-t border-[#E5E7EB]">
+              <div className="flex flex-col items-center gap-1">
+                <span className="flex items-center gap-1 text-[12px]"><span className="w-1.5 h-1.5 rounded-full bg-[#6287EE]"></span>股票</span>
+                <span className="text-[16px] font-mono font-bold">{animatedKpi.totalValueByType.stock.toFixed(1)}亿</span>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <span className="flex items-center gap-1 text-[12px]"><span className="w-1.5 h-1.5 rounded-full bg-[#ED6C3D]"></span>ETF</span>
+                <span className="text-[16px] font-mono font-bold">{animatedKpi.totalValueByType.etf.toFixed(1)}亿</span>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <span className="flex items-center gap-1 text-[12px]"><span className="w-1.5 h-1.5 rounded-full bg-[#886CE6]"></span>期货</span>
+                <span className="text-[16px] font-mono font-bold">{animatedKpi.totalValueByType.futures.toFixed(1)}亿</span>
+              </div>
+            </div>
           </div>
 
           <div className="bg-[#F7F9FC] p-4 rounded-2xl border border-[#E5E7EB]">
-            <span className="text-[14px] text-[#6B7280] font-semibold block">{selectedScenario === 'evening' ? 'T日' : 'T-1'}日多账户净买入</span>
-            <span className="text-[20px] font-bold text-[#27C781] font-mono mt-2 block">{animatedKpi.netBuy.toFixed(0)} 万元</span>
-            <span className="text-[12px] hover:text-[#27C781] block mt-1">日内多头平盘/空单对冲</span>
+            <span className="text-[14px] text-[#6B7280] font-semibold block">{selectedScenario === 'evening' ? 'T日' : 'T-1'}日净买入</span>
+            <span className="text-[20px] font-bold text-[#27C781] font-mono mt-2 block">{animatedKpi.netBuy.toFixed(0)} 万</span>
+            <div className="flex items-center justify-between mt-2 pt-2 border-t border-[#E5E7EB]">
+              <div className="flex flex-col items-center gap-1">
+                <span className="flex items-center gap-1 text-[12px]"><span className="w-1.5 h-1.5 rounded-full bg-[#6287EE]"></span>股票</span>
+                <span className="text-[16px] font-mono font-bold">{animatedKpi.netBuyByType.stock >= 0 ? '+' : ''}{animatedKpi.netBuyByType.stock.toFixed(0)}万</span>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <span className="flex items-center gap-1 text-[12px]"><span className="w-1.5 h-1.5 rounded-full bg-[#ED6C3D]"></span>ETF</span>
+                <span className="text-[16px] font-mono font-bold">{animatedKpi.netBuyByType.etf >= 0 ? '+' : ''}{animatedKpi.netBuyByType.etf.toFixed(0)}万</span>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <span className="flex items-center gap-1 text-[12px]"><span className="w-1.5 h-1.5 rounded-full bg-[#886CE6]"></span>期货</span>
+                <span className="text-[16px] font-mono font-bold">{animatedKpi.netBuyByType.futures >= 0 ? '+' : ''}{animatedKpi.netBuyByType.futures.toFixed(0)}万</span>
+              </div>
+            </div>
           </div>
 
           <div className="bg-[#F7F9FC] p-4 rounded-2xl border border-[#E5E7EB]">
             <span className="text-[14px] text-[#6B7280] font-semibold block">单日多账户总损益</span>
-            <span className="text-[20px] font-bold text-[#27C781] font-mono mt-2 block">{animatedKpi.dailyPnL.toFixed(0)} 万元</span>
-            <span className="text-[12px] text-[#6B7280] block mt-1">通信/储能回撤导致</span>
+            <span className="text-[20px] font-bold text-[#27C781] font-mono mt-2 block">{animatedKpi.dailyPnL.toFixed(0)} 万</span>
+            <div className="flex items-center justify-between mt-2 pt-2 border-t border-[#E5E7EB]">
+              <div className="flex flex-col items-center gap-1">
+                <span className="flex items-center gap-1 text-[12px]"><span className="w-1.5 h-1.5 rounded-full bg-[#6287EE]"></span>股票</span>
+                <span className="text-[16px] font-mono font-bold">{animatedKpi.pnlByType.stock >= 0 ? '+' : ''}{animatedKpi.pnlByType.stock.toFixed(0)}万</span>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <span className="flex items-center gap-1 text-[12px]"><span className="w-1.5 h-1.5 rounded-full bg-[#ED6C3D]"></span>ETF</span>
+                <span className="text-[16px] font-mono font-bold">{animatedKpi.pnlByType.etf >= 0 ? '+' : ''}{animatedKpi.pnlByType.etf.toFixed(0)}万</span>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <span className="flex items-center gap-1 text-[12px]"><span className="w-1.5 h-1.5 rounded-full bg-[#886CE6]"></span>期货</span>
+                <span className="text-[16px] font-mono font-bold">{animatedKpi.pnlByType.futures >= 0 ? '+' : ''}{animatedKpi.pnlByType.futures.toFixed(0)}万</span>
+              </div>
+            </div>
           </div>
 
           <div className="bg-[#F7F9FC] p-4 rounded-2xl border border-[#E5E7EB]">
