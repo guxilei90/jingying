@@ -186,7 +186,7 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
                     <span className="text-2xs font-sans font-medium text-[#6B7280]">万</span>
                   </div>
                   <div className="flex items-center gap-1.5 mt-2 text-[14px]">
-                    <span className="text-[#6B7280] font-medium">环比增长:</span>
+                    <span className="text-[#6B7280] font-medium">较上日:</span>
                     <span className={`font-bold font-mono text-[#ED6C3D]`}>
                       +{overview.revenueMoM}%
                     </span>
@@ -258,11 +258,11 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
             <div className="grid grid-cols-2 gap-6 text-[14px]">
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-[14px]">
-                  <span className="text-[#6B7280] font-medium">当月累计创收</span>
+                  <span className="text-[#6B7280] font-medium">当月累计营收</span>
                   <span className="font-mono font-semibold text-[#1F2937]">{formatNum(animatedValues.revenueMonth)} 万</span>
                 </div>
                 <div className="flex items-center justify-between text-[14px]">
-                  <span className="text-[#6B7280] font-medium">当年创收(YTD)</span>
+                  <span className="text-[#6B7280] font-medium">当年累计营收(YTD)</span>
                   <span className="font-mono font-bold text-[#1F2937]">{(animatedValues.revenueYear / 10000).toFixed(2)} 亿</span>
                 </div>
               </div>
@@ -281,7 +281,7 @@ export const AiSummary: React.FC<AiSummaryProps> = ({
             <div className="mt-4 grid grid-cols-2 gap-3">
               <div className="bg-[#F7F9FC] p-4 rounded-xl border border-[#E5E7EB]/65">
                 <div className="flex items-center justify-between text-[14px] mb-2">
-                  <span className="text-[#6B7280] font-semibold">集团预算进度里程碑</span>
+                  <span className="text-[#6B7280] font-semibold">集团年累计营收预算时序</span>
                   <span className="font-bold font-mono text-[#6287EE]">{overview.profitBudgetRate.toFixed(1)}%</span>
                 </div>
                 <div className="w-full bg-[#EBEEF3] h-3 rounded-full overflow-hidden">

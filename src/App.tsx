@@ -120,7 +120,7 @@ export default function App() {
                           <div className="text-[10px] opacity-60 mt-1">较上日+85万</div>
                         </div>
                         <div className="bg-[#ED6C3D] rounded-xl p-3 text-white">
-                          <div className="text-[11px] opacity-80 mb-1">合计收益率</div>
+                          <div className="text-[11px] opacity-80 mb-1">年累计收益率</div>
                           <div className="text-[18px] font-mono font-bold">+0.97%</div>
                           <div className="text-[10px] opacity-60 mt-1">较上日+0.12%</div>
                         </div>
@@ -147,7 +147,7 @@ export default function App() {
                           </div>
                         </div>
                         <div className="bg-[#F7F9FC] rounded-xl p-3">
-                          <div className="text-[12px] text-[#6B7280] font-semibold mb-2">日收益率</div>
+                          <div className="text-[12px] text-[#6B7280] font-semibold mb-2">年累计收益率</div>
                           <div className="space-y-1.5 text-[14px]">
                             <div className="flex justify-between"><span className="text-[#6B7280]">权益类</span><span className="font-mono text-[#ED6C3D]">+1.62%</span></div>
                             <div className="flex justify-between"><span className="text-[#6B7280]">固收类</span><span className="font-mono text-[#ED6C3D]">+0.26%</span></div>
