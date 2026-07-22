@@ -335,11 +335,6 @@ export const OperationalSection: React.FC<OperationalSectionProps> = ({
                 <p className="text-[14px] text-[#6B7280]">YTD 智能预警与提质增效中枢</p>
               </div>
             </div>
-            <div className="text-right">
-              <span className="text-[14px] font-mono font-bold px-2 py-0.8 bg-[#EBEEF3] border border-[#E5E7EB] text-[#6287EE] rounded-lg">
-                标准进度 45.8%
-              </span>
-            </div>
           </div>
 
           {/* Revenue Achievement Section */}
