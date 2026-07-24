@@ -52,32 +52,6 @@ export default function App() {
             >
               {selectedScenario === 'morning' ? (
                 <>
-                  {/* Scenario Ticker banner notice (Beautiful App Store Capsule) */}
-                  <div className="bg-blue-50/50 border border-blue-100/60 p-4 rounded-2xl text-xs flex flex-col md:flex-row md:items-center justify-between gap-2 shadow-[0_2px_12px_rgba(37,99,235,0.015)]">
-                    <div className="flex items-center gap-2">
-                      <span className="flex h-2.5 w-2.5 relative">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-600"></span>
-                      </span>
-                      <span className="text-[14px]">
-                        当前场景分析：
-                        <strong className="text-blue-600 font-bold font-sans">
-                          {selectedScenario === 'morning' ? '研判场景' : '日终盘后业绩结转场景 (盘后清账)'}
-                        </strong>
-                        （数据结转清算时间：
-                        <input
-                          type="date"
-                          value={selectedDate}
-                          onChange={(e) => setSelectedDate(e.target.value)}
-                          className="bg-blue-50 border border-blue-300 text-blue-600 font-mono px-2 py-1 rounded cursor-pointer hover:border-blue-500 hover:bg-blue-100 outline-none text-[14px]"
-                        />
-                        ）
-                      </span>
-                    </div>
-                    <div className="text-[14px] text-slate-500 font-mono">
-                      数字化账套沙箱在并账模式下运行，清算中心指标完全可向下穿透与多账户联动。
-                    </div>
-                  </div>
 
                   {/* 2. TOP CARDS (Metric Summary left card + AI Analysis right cards) */}
                   <AiSummary

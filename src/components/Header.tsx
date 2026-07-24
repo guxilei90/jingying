@@ -90,10 +90,13 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Data timeliness note */}
-        <div className="text-[14px] text-[#6B7280] font-mono">
-          数据来源：前一交易日(T-1)收盘清算 · 仅供参考
-        </div>
+        {/* Data source - date picker */}
+        <input
+          type="date"
+          value={selectedDate}
+          onChange={(e) => setSelectedDate(e.target.value)}
+          className="text-[14px] bg-gray-50 border border-gray-300 text-gray-600 font-mono px-2 py-1 rounded cursor-pointer hover:border-gray-500 hover:bg-gray-100 outline-none"
+        />
       </div>
     </header>
   );
